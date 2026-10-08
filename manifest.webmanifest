@@ -1,0 +1,65 @@
+{
+ "id": "/",
+ "name": "الإعلام الأمني",
+ "short_name": "الإعلام الأمني",
+ "description": "خدمات إدارة الإعلام الأمني: أوامر التصوير والمهام والإشعارات.",
+ "lang": "ar",
+ "dir": "rtl",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "theme_color": "#7d6a57",
+ "background_color": "#f6f3ef",
+ "categories": [
+  "productivity",
+  "business"
+ ],
+ "prefer_related_applications": false,
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512-maskable.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "اليوم",
+   "short_name": "اليوم",
+   "url": "./#/today",
+   "icons": [
+    {
+     "src": "icons/icon-192.png",
+     "sizes": "192x192",
+     "type": "image/png"
+    }
+   ]
+  },
+  {
+   "name": "طلب إجازة",
+   "short_name": "طلب إجازة",
+   "url": "./#/me/req",
+   "icons": [
+    {
+     "src": "icons/icon-192.png",
+     "sizes": "192x192",
+     "type": "image/png"
+    }
+   ]
+  }
+ ]
+}
