@@ -1,0 +1,61 @@
+/* get.css: the one-button install page /get/, in the app's colours (shell/styles/tokens.css) */
+:root{
+  --bg:#f6f3ef; --surface:#ffffff; --ink:#2b241e; --ink-2:#574a3e; --muted:#6f6054; --line:#e9e1d7;
+  --brand-fill:#5e4e3e; --brand-press:#4d4033; --brand-tint:#f1ebe3; --brand-ink:#574839; --on-brand:#ffffff;
+  --info:#2b5c8a; --info-bg:#e6eff8; --ok:#2f6a2c; --ok-bg:#e7f1e3; --focus:#2b5c8a;
+  --shadow:0 2px 6px rgb(43 36 30 / .08), 0 16px 36px -10px rgb(43 36 30 / .28);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14110e; --surface:#1d1915; --ink:#f2ebe3; --ink-2:#d2c5b6; --muted:#a69584; --line:#332c25;
+    --brand-fill:#c9b196; --brand-press:#d8c3aa; --brand-tint:#2a231c; --brand-ink:#e0cdb6; --on-brand:#1a140f;
+    --info:#8cbcf0; --info-bg:#182637; --ok:#8fd18a; --ok-bg:#1e2e1c; --focus:#8cbcf0;
+    --shadow:0 2px 6px rgb(0 0 0 / .4), 0 18px 40px -10px rgb(0 0 0 / .7);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{min-height:100vh;min-height:100dvh;max-width:440px;margin:0 auto;padding:12px 16px 140px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.bar{align-self:stretch;display:flex;justify-content:flex-end;min-height:40px}
+.lang{font:inherit;font-size:.85em;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 16px;min-height:40px;cursor:pointer}
+.hero{display:flex;flex-direction:column;align-items:center;margin-top:3vh}
+.appicon{width:104px;height:104px;border-radius:24px;box-shadow:var(--shadow)}
+h1{margin:16px 0 2px;font-size:1.6em;line-height:1.25}
+.sub{margin:0;color:var(--muted)}
+section{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:14px}
+.i{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.i .dot{fill:currentColor;stroke:none}
+.big{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:68px;padding:12px 20px;border:0;border-radius:20px;background:var(--brand-fill);color:var(--on-brand);font:inherit;font-size:1.3em;font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+.big:active{background:var(--brand-press)}
+.big .i{width:30px;height:30px;stroke-width:2.4}
+.big.tonal{min-height:56px;font-size:1.05em;background:var(--brand-tint);color:var(--brand-ink);box-shadow:none}
+.big.tonal .i{width:24px;height:24px;stroke-width:2}
+.say{margin:0;font-size:1.3em;font-weight:700;line-height:1.75}
+.small{margin:0;color:var(--muted);font-size:.9em}
+.key{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0 2px;border-radius:50%;background:var(--surface);border:2px solid var(--info);color:var(--info);vertical-align:middle}
+.help{display:flex;flex-direction:column;gap:6px;width:100%;padding:14px 16px;border-radius:18px;background:var(--info-bg)}
+.help .say{font-size:1.1em}
+.done{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:0;padding:16px;border-radius:18px;background:var(--ok-bg);color:var(--ok);font-weight:700;font-size:1.1em}
+.url{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;font-size:.9em;text-align:center}
+/* the arrow at the browser's own button: 64 px wide, its middle on the button */
+.arrow{position:fixed;z-index:5;bottom:calc(6px + env(safe-area-inset-bottom));width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--info);pointer-events:none}
+.arrow .key{width:52px;height:52px;margin:0;box-shadow:var(--shadow)}
+.arrow .key .i{width:28px;height:28px}
+.arrow .down{width:56px;height:56px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;animation:bob 1.1s ease-in-out infinite}
+.arrow.p18{left:calc(50% - 32px)}
+.arrow.p26.ltr,.arrow.psam.ltr{right:0}
+.arrow.p26.rtl,.arrow.psam.rtl{left:0}
+.arrow.p27.ltr{left:calc(23% - 32px)}
+.arrow.p27.rtl{right:calc(23% - 32px)}
+.arrow.up{bottom:auto;top:calc(2px + env(safe-area-inset-top))}
+.arrow.up.ltr{right:0}
+.arrow.up.rtl{left:0}
+.arrow.up .down{animation-name:bobup}
+@keyframes bob{50%{transform:translateY(10px)}}
+@keyframes bobup{50%{transform:translateY(-10px)}}
+@media (prefers-reduced-motion: reduce){.arrow .down{animation:none}}
