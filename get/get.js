@@ -513,7 +513,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     return mod.exports;
   }
   var A = req('./api.js'), St = req('./store.js');
-  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261028.3","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","ANDROID_APK_URL":"/app/security-media.apk","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
+  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261029.1","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","MN_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-mn","ANDROID_APK_URL":"","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
 })();
 // get.js: the install page /get/, v3 (zeno 2026-10-28: «like the Sharjah Police employee-app page»): a gate, then the download page.
 // The gate is the app's own sign-in, through the shell's own client (build_get.js puts shell/src idb.js, store.js, sign.js and api.js in
@@ -528,6 +528,10 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
 // a download of that file) and iPhone (the Add to Home Screen steps; IOS_MANIFEST_URL set: itms-services://?action=download-manifest).
 // ?l=en or ?l=ar picks the language, else the phone's (English only for an English phone, as the app); ع / EN switches it, ☾ / ☀ the theme.
 // Opened from the home screen it goes to the app.
+// /get/?r=mn (MN v1, fix28 2026-10-28): the administrative coordinators' gate in place of the team's: the military number, «رقمك المسجّل
+// ينتهي بـ 19 — هل هذا رقمك؟», the 6-digit WhatsApp code, through the portal «👥 المنسقون» (CFG.MN_URL, fmt=app: mlook, msend, mcode, the
+// device id dv); a right code keeps the coordinator's record {dv, tok, exp, me} under the key mn as the app's views/coord.js does, so on
+// Android the installed app opens in his mode («طلب جديد», «المتابعة»); on iPhone and iPad he signs in inside the app.
 'use strict';
 (function () {
   var w = window, d = document, nav = w.navigator, ua = String(nav.userAgent || '');
@@ -552,11 +556,13 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   try { q = new w.URLSearchParams(w.location.search); } catch (e) { q = null; }
   var ql = q ? q.get('l') : '';
   var lang = ql === 'en' || ql === 'ar' ? ql : /^en\b/i.test(String(nav.language || '')) ? 'en' : 'ar';
+  // the coordinators' gate (MN v1): only where the app was built with the portal (not the demo site)
+  var MN = !!(q && q.get('r') === 'mn' && /^https:\/\//.test(String(CFG.MN_URL || '')));
 
   // the shell's own numbers (views/welcome.js): a code lives 5 minutes, a resend waits a minute (or the server's wait), 5 tries; the code
   // step is kept 10 minutes across a trip to WhatsApp; a passed gate holds for 30 minutes in this tab
   var CODE_LIFE = 5 * 60000, RESEND = 60000, HINT = 60000, TRIES = 5, LIFE = 10 * 60000, OK_LIFE = 30 * 60000;
-  var SS = 'tsw-get', OK = 'tsw-get-ok', TH = 'tsw-get-theme';
+  var SS = 'tsw-get', OK = 'tsw-get-ok', TH = 'tsw-get-theme', SSM = 'tsw-get-mn', DV_RE = /^[A-Za-z0-9_-]{22,64}$/;
 
   var S = {
     ar: {
@@ -572,6 +578,8 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
       andWeb: 'يُثبَّت من المتصفح مباشرة، دون متجر.', andApk: 'نزّل ملف التطبيق (APK) وثبّته على جوالك الأندرويد.',
       iosWeb: 'اضغط بالأسفل واتبع الخطوات، دون App Store.', iosEnt: 'اضغط بالأسفل للتثبيت مباشرة، دون App Store.',
       sec: ['ثانية واحدة', 'ثانيتين', 'ثوانٍ', 'ثانية'], tries: ['محاولة واحدة', 'محاولتان', 'محاولات', 'محاولة'],
+      milBad: 'اكتب الرقم العسكري (أرقام فقط).', nomil: 'الرقم العسكري غير موجود، راجع الإدارة', who: 'رقمك المسجّل ينتهي بـ {e} — هل هذا رقمك؟',
+      notMe: 'راجع الإدارة لتحديث رقم هاتفك المسجّل.', mbad: 'الرمز غير صحيح', start: 'انتهت هذه الخطوة. ابدأ من جديد.',
     },
     en: {
       title: 'Download Security Media', copied: 'Link copied', link: 'Link', langs: 'Language', dark: 'Dark mode', light: 'Light mode', close: 'Close',
@@ -586,9 +594,13 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
       andWeb: 'Installs straight from the browser, no store needed.', andApk: 'Download the APK and install it on your Android device.',
       iosWeb: 'Tap below and follow the steps — no App Store needed.', iosEnt: 'Tap below to install directly — no App Store needed.',
       sec: ['1 second', '2 seconds', 'seconds', 'seconds'], tries: ['1 try', '2 tries', 'tries', 'tries'],
+      milBad: 'Enter your military number (digits only).', nomil: 'This military number is not registered. Please contact the administration.',
+      who: 'Your registered number ends in {e}. Is this your number?', notMe: 'Please contact the administration to update your registered phone number.',
+      mbad: 'The code is not correct', start: 'This step has ended. Please start again.',
     },
   };
-  var t = function (k, v) { var s = S[lang][k]; return v ? String(s).replace(/\{(\w+)\}/g, function (a, b) { return v[b] != null ? v[b] : a; }) : s; };
+  var fill = function (s, v) { return v ? String(s).replace(/\{(\w+)\}/g, function (a, b) { return v[b] != null ? v[b] : a; }) : s; };
+  var t = function (k, v) { return fill(S[lang][k], v); };
   // a count with its noun: «ثانية واحدة», «ثانيتين», «5 ثوانٍ», «22 ثانية»; "1 second", "22 seconds"
   function count(k, x) {
     var f = S[lang][k], r = x % 100;
@@ -676,13 +688,13 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     $('guide-x').setAttribute('aria-label', t('close'));
     // the link to copy or share has no language: it opens in the reader's own
     var u = $('url');
-    u.value = w.location.origin + '/get/';
+    u.value = w.location.origin + '/get/' + (MN ? '?r=mn' : '');
     u.setAttribute('aria-label', t('link'));
     applyTheme();
     lines();
     if (g.err) err(g.err.at, g.err.k, g.err.v, g.err.raw);
     if (!$('g-code').hidden) tick();
-    if (keep) try { w.history.replaceState(null, '', w.location.pathname + '?l=' + l); } catch (e) { /* ok */ }
+    if (keep) try { w.history.replaceState(null, '', w.location.pathname + (MN ? '?r=mn&l=' : '?l=') + l); } catch (e) { /* ok */ }
   }
 
   var timer = 0;
@@ -723,7 +735,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   }
 
   // ---------- the gate ----------
-  var g = { phone: '', sentAt: 0, wait: 0, left: TRIES, bad: 0, busy: false, err: null, signed: false };
+  var g = { phone: '', sentAt: 0, wait: 0, left: TRIES, bad: 0, busy: false, err: null, signed: false, mt: '', end: '' };
   // an error line (at: ph, ok, otp) from a key of S (with values) or the server's own text (raw)
   function err(at, k, v, raw) {
     g.err = k || raw ? { at: at, k: k, v: v, raw: raw } : null;
@@ -751,9 +763,13 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     b.disabled = on;
     if (on) b.setAttribute('aria-busy', 'true'); else b.removeAttribute('aria-busy');
   }
-  function save() { ss(SS, { phone: g.phone, at: now(), sentAt: g.sentAt, wait: g.wait, left: g.left, bad: g.bad }); }
+  function save() {
+    if (MN) ss(SSM, { mt: g.mt, end: g.end, at: now(), sentAt: g.sentAt, wait: g.wait });
+    else ss(SS, { phone: g.phone, at: now(), sentAt: g.sentAt, wait: g.wait, left: g.left, bad: g.bad });
+  }
   // back from WhatsApp, or a reload: the code step again while it lives
   function resume() {
+    if (MN) return mnResume();
     var o = ss(SS), age = o ? now() - Number(o.at) : -1;
     if (!o || !/^05\d{8}$/.test(String(o.phone)) || !(age >= 0 && age < LIFE) || !(Number(o.sentAt) > 0)) { if (o) ss(SS, null); return false; }
     g.phone = o.phone; g.sentAt = Number(o.sentAt); g.wait = Number(o.wait) || 0;
@@ -768,16 +784,17 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     screen('g-num', focus ? 'ph' : null);
   }
   function limited() {
-    ss(SS, null);
+    ss(SS, null); ss(SSM, null);
     numStep(false);
     show('limited');
   }
   function refuse(msg) {
-    ss(SS, null);
+    ss(SS, null); ss(SSM, null);
     $('no-msg').textContent = msg;
     screen('g-no', true);
   }
   function numNext() {
+    if (MN) { milNext(); return; }
     var v = phoneOf($('ph').value);
     if (!v) { err('ph', 'phoneBad'); try { $('ph').focus(); } catch (e) { /* ok */ } return; }
     g.phone = v;
@@ -787,6 +804,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   }
   // a=login: the code goes by WhatsApp (the answer is the same neutral «sent» for any number); again: the resend on the code step
   async function send(again) {
+    if (MN) { await mnSend(again); return; }
     if (g.busy) return;
     var at = again ? 'otp' : 'ok', btn = again ? 'resend' : 'ok-yes';
     busy(btn, true);
@@ -823,7 +841,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     $('nohint').hidden = el < HINT;
   }
   function openCode(focus) {
-    $('code-num').textContent = masked(g.phone);
+    $('code-num').textContent = MN ? g.end : masked(g.phone);
     $('dom').textContent = CFG.DOMAIN || w.location.host;
     $('otp').value = '';
     $('otp').disabled = false;
@@ -836,6 +854,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   // a=otp with the phone-made ds and device key (the shell's api.otp): in (signed in), mfa (a right code; staff finish with their password
   // inside the app), else the shell's refusals
   async function verify() {
+    if (MN) { await mnVerify(); return; }
     var inp = $('otp'), v = toLatin(inp.value).replace(/\D/g, '').slice(0, 6);
     if (g.busy) return;
     if (v.length !== 6) { err('otp', 'codeShort'); try { inp.focus(); } catch (e) { /* ok */ } return; }
@@ -863,8 +882,8 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   // the gate is passed. iPhone and iPad: the installed app keeps its own storage, apart from Safari's, so the session just made would only
   // sit in Safari (a device row nobody uses): it is signed out here (a=logout), and the app asks for its own code once installed
   async function passed(signed) {
-    ss(SS, null);
-    if (signed && ios) { try { await api.signOut(false); } catch (e) { /* the phone wipes itself whatever the answer */ } }
+    ss(SS, null); ss(SSM, null);
+    if (signed && ios && !MN) { try { await api.signOut(false); } catch (e) { /* the phone wipes itself whatever the answer */ } }
     g.signed = signed && !ios;
     ss(OK, now());
     download(true);
@@ -880,6 +899,131 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   function openWa() {
     save();
     try { w.location.assign('whatsapp://'); } catch (e) { /* no WhatsApp */ }
+  }
+
+  // ---------- the coordinators' gate (MN v1, /get/?r=mn) ----------
+  // the coordinator's words in place of the team's (data-mn-ar / data-mn-en), before the first setLang; the number field takes digits
+  function mnWords() {
+    var els = d.querySelectorAll('[data-mn-ar]');
+    for (var i = 0; i < els.length; i++) { els[i].setAttribute('data-ar', els[i].getAttribute('data-mn-ar')); els[i].setAttribute('data-en', els[i].getAttribute('data-mn-en')); }
+    hide('ph-cc');
+    var ph = $('ph');
+    ph.setAttribute('type', 'text'); ph.setAttribute('autocomplete', 'off'); ph.setAttribute('placeholder', ''); ph.setAttribute('maxlength', '14');
+    hide('ok-br'); hide('ok-num');
+  }
+  // one line in both languages (setLang switches it): the sentence of the «هل هذا رقمك؟» step with the end of his registered number
+  function both(el, k, v) { el.setAttribute('data-ar', fill(S.ar[k], v)); el.setAttribute('data-en', fill(S.en[k], v)); el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-ar'); }
+  // the device id (as the app's ctx.mn.dv: 32 random bytes, base64url) kept in the record with the key mn; the portal binds the step and the session to it
+  function newDv() {
+    var b = new Uint8Array(32), x = '';
+    w.crypto.getRandomValues(b);
+    for (var i = 0; i < b.length; i++) x += String.fromCharCode(b[i]);
+    return w.btoa(x).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  async function mnRec() {
+    var r = null;
+    try { r = store ? await store.get('mn') : null; } catch (e) { r = null; }
+    r = r && typeof r === 'object' ? r : {};
+    if (!DV_RE.test(String(r.dv || ''))) { r = { dv: newDv() }; try { if (store) await store.set('mn', r); } catch (e) { /* this tab only */ } }
+    return r;
+  }
+  // a POST to the portal as the app makes it (views/coord.js post): its JSON answer, else {code: net | timeout | fail, local}
+  async function mnPost(a, f) {
+    var rec = await mnRec(), body = new w.URLSearchParams();
+    body.set('fmt', 'app'); body.set('a', a); body.set('l', lang); body.set('dv', rec.dv);
+    Object.keys(f || {}).forEach(function (k) { body.set(k, f[k]); });
+    var ac = typeof w.AbortController === 'function' ? new w.AbortController() : null;
+    var tm = w.setTimeout(function () { if (ac) ac.abort(); }, 20000);
+    try {
+      var res = await w.fetch(CFG.MN_URL, { method: 'POST', body: body, mode: 'cors', credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: ac ? ac.signal : undefined });
+      var j = null;
+      try { j = JSON.parse(await res.text()); } catch (e) { j = null; }
+      w.clearTimeout(tm);
+      return j && typeof j === 'object' && typeof j.code === 'string' ? j : { code: 'fail', local: true };
+    } catch (e) {
+      w.clearTimeout(tm);
+      var up = false;
+      try { up = await siteStatus(); } catch (e2) { up = false; }
+      return { code: e && e.name === 'AbortError' ? 'timeout' : 'net', down: !!up, local: true };
+    }
+  }
+  var mnEnd = function (v) { return String(v == null ? '' : v).replace(/\D/g, '').slice(-4); };
+  var mnTkOk = function (v) { return typeof v === 'string' && v.length > 4 && v.length <= 400; };
+  function mnStart() { ss(SSM, null); g.mt = ''; numStep(true); err('ph', 'start'); }
+  // the military number: digits (Arabic digits too), «هل هذا رقمك؟» with the end of his registered number, or «غير موجود»
+  async function milNext() {
+    if (g.busy) return;
+    var m = toLatin($('ph').value).replace(/[\s\-_.\/]/g, '');
+    if (!/^\d{2,12}$/.test(m)) { err('ph', 'milBad'); try { $('ph').focus(); } catch (e) { /* ok */ } return; }
+    busy('ph-next', true);
+    var r = await mnPost('mlook', { mil: m });
+    busy('ph-next', false);
+    if (r.code === 'who' && mnTkOk(r.mt) && mnEnd(r.end)) {
+      g.mt = r.mt; g.end = mnEnd(r.end);
+      both($('ok-say'), 'who', { e: g.end });
+      clearErr();
+      screen('g-ok', true);
+      return;
+    }
+    if (r.code === 'nomil') { err('ph', 'nomil'); return; }
+    if (r.code === 'lock' || r.code === 'limit') { limited(); return; }
+    netErr('ph', r);
+  }
+  async function mnSend(again) {
+    if (g.busy) return;
+    var at = again ? 'otp' : 'ok', btn = again ? 'resend' : 'ok-yes';
+    busy(btn, true);
+    var r = await mnPost('msend', { mt: g.mt });
+    busy(btn, false);
+    if (r.code === 'sent') {
+      if (mnTkOk(r.mt)) g.mt = r.mt;
+      if (mnEnd(r.end)) g.end = mnEnd(r.end);
+      var wt = Number(r.wait);
+      g.sentAt = now(); g.wait = wt > 0 ? wt * 1000 : 0;
+      save();
+      if (again) toast(t('resent'));
+      $('otp').disabled = false;
+      openCode(true);
+      return;
+    }
+    if (r.code === 'start') { mnStart(); return; }
+    if (r.code === 'lock' || r.code === 'limit') { limited(); return; }
+    if ((r.code === 'wait' || r.code === 'day') && r.msg) { err(at, '', null, r.msg); return; }
+    netErr(at, r);
+  }
+  // a right code: his record as the app keeps it; on iPhone and iPad the installed app has its own storage, so only the device id stays
+  async function mnVerify() {
+    var inp = $('otp'), v = toLatin(inp.value).replace(/\D/g, '').slice(0, 6);
+    if (g.busy) return;
+    if (v.length !== 6) { err('otp', 'codeShort'); try { inp.focus(); } catch (e) { /* ok */ } return; }
+    busy('verify', true);
+    var r = await mnPost('mcode', { mt: g.mt, v: v });
+    if (r.code === 'in' && typeof r.tok === 'string' && r.tok) {
+      var rec = await mnRec(), keep = !ios;
+      if (keep) {
+        var me = r.me && typeof r.me === 'object' ? r.me : {}, s = function (x, n) { return String(x == null ? '' : x).trim().slice(0, n); };
+        try { await store.set('mn', { dv: rec.dv, tok: r.tok, exp: Number(r.exp) || now() + 864e5, me: { name: s(me.name, 80), rank: s(me.rank, 40), unit: s(me.unit, 200), l: me.l === 'en' ? 'en' : 'ar' } }); } catch (e) { keep = false; }
+      }
+      await passed(keep);
+      busy('verify', false);
+      return;
+    }
+    busy('verify', false);
+    var c = r.code;
+    if (c === 'start') { mnStart(); return; }
+    if (c === 'lock' || c === 'limit') { limited(); return; }
+    inp.value = '';
+    if (c === 'bad') { if (r.msg) err('otp', '', null, r.msg); else err('otp', 'mbad'); try { inp.focus(); } catch (e) { /* ok */ } return; }
+    if (c === 'expired') { err('otp', 'expired'); return; }
+    netErr('otp', r);
+  }
+  // back from WhatsApp, or a reload: the code step again while the step lives (the portal's ticket, mil_tk_m)
+  function mnResume() {
+    var o = ss(SSM), age = o ? now() - Number(o.at) : -1;
+    if (!o || !mnTkOk(o.mt) || !mnEnd(o.end) || !(age >= 0 && age < LIFE) || !(Number(o.sentAt) > 0)) { if (o) ss(SSM, null); return false; }
+    g.mt = o.mt; g.end = mnEnd(o.end); g.sentAt = Number(o.sentAt); g.wait = Number(o.wait) || 0;
+    openCode(false);
+    return true;
   }
 
   // ---------- the download page ----------
@@ -900,6 +1044,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     if (apk) $('apk').setAttribute('href', CFG.ANDROID_APK_URL);
     // the web app installed here opens with the session this browser holds
     if (android && !apk && g.signed) show('and-in');
+    if (MN && ios) show('mn-ios');
     // iPhone: the enterprise build's install dialog when its manifest is set, else the Add to Home Screen steps
     var ent = ios && !!CFG.IOS_MANIFEST_URL && !!CFG.IOS_LINK;
     $('ios-get').hidden = !ent;
@@ -987,6 +1132,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   }
 
   function init() {
+    if (MN) mnWords();
     setLang(lang, false);
     $('l-ar').addEventListener('click', function () { if (lang !== 'ar') setLang('ar', true); });
     $('l-en').addEventListener('click', function () { if (lang !== 'en') setLang('en', true); });
@@ -997,7 +1143,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     $('ph').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); numNext(); } });
     $('ph-next').addEventListener('click', numNext);
     $('ok-yes').addEventListener('click', function () { send(false); });
-    $('ok-no').addEventListener('click', function () { $('ph').value = ''; g.phone = ''; numStep(true); });
+    $('ok-no').addEventListener('click', function () { if (MN) { g.mt = ''; numStep(true); err('ph', 'notMe'); return; } $('ph').value = ''; g.phone = ''; numStep(true); });
     $('otp').addEventListener('input', function () {
       var inp = $('otp'), v = toLatin(inp.value).replace(/\D/g, '').slice(0, 6);
       if (inp.value !== v) inp.value = v;
@@ -1009,7 +1155,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     $('resend').addEventListener('click', function () { send(true); });
     $('paste').addEventListener('click', paste);
     $('openwa').addEventListener('click', openWa);
-    $('change').addEventListener('click', function () { ss(SS, null); numStep(true); });
+    $('change').addEventListener('click', function () { ss(SS, null); ss(SSM, null); numStep(true); });
     $('no-back').addEventListener('click', function () { numStep(true); });
     $('guide-btn').addEventListener('click', function () { openGuide(ios || !android ? 'ios' : 'and', $('guide-btn')); });
     $('ios-btn').addEventListener('click', function () { openGuide('ios', $('ios-btn')); });
@@ -1035,6 +1181,14 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     var ok = ss(OK);
     if (typeof ok === 'number' && now() - ok >= 0 && now() - ok < OK_LIFE) { download(false); return; }
     if (!api) { refuse(t('fail')); return; }
+    // the coordinators' gate: this phone already holds a live coordinator session (the app's record mn)
+    if (MN) {
+      Promise.resolve(store.get('mn')).then(function (r) {
+        if (r && typeof r === 'object' && typeof r.tok === 'string' && r.tok && Number(r.exp) > now() && DV_RE.test(String(r.dv || ''))) { g.signed = true; download(false); return; }
+        if (!resume()) numStep(false);
+      }, function () { if (!resume()) numStep(false); });
+      return;
+    }
     // this phone already holds the app's session (the installed app shares this browser's storage on Android): it is verified
     api.signedInfo().then(function (info) {
       if (info && info.exp > now()) { g.signed = true; download(false); return; }

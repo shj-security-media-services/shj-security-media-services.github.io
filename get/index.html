@@ -73,15 +73,15 @@
   <!-- the gate, 1: the member's number -->
   <section class="card gate" id="g-num" hidden>
     <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
-    <h1 tabindex="-1" data-en="Confirm your number">تأكيد رقمك</h1>
-    <p class="lede" data-en="Enter your mobile number registered with the photography team. We will send it a verification code by WhatsApp.">اكتب رقم جوالك المسجّل في فريق التصوير، وسنرسل إليه رمز تحقق عبر واتساب.</p>
+    <h1 tabindex="-1" data-en="Confirm your number" data-mn-ar="دخول المنسقين" data-mn-en="Coordinator sign-in">تأكيد رقمك</h1>
+    <p class="lede" data-en="Enter your mobile number registered with the photography team. We will send it a verification code by WhatsApp." data-mn-ar="اكتب رقمك العسكري المسجّل لدى الإدارة، وسنرسل رمز تحقق عبر واتساب إلى رقمك المسجّل." data-mn-en="Enter your military number as the administration registered it. We will send a verification code by WhatsApp to your registered number.">اكتب رقم جوالك المسجّل في فريق التصوير، وسنرسل إليه رمز تحقق عبر واتساب.</p>
     <div class="field">
-      <label for="ph"><span data-en="Mobile number">رقم الجوال</span> <b class="req" aria-hidden="true">*</b></label>
-      <div class="phone" dir="ltr"><span class="cc">+971</span><input id="ph" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="5X XXX XXXX" maxlength="14" required aria-required="true" aria-describedby="ph-h"></div>
-      <span class="hint" id="ph-h" data-en="You will get a 6-digit code on WhatsApp. Valid 5 minutes.">سيصلك رمز من 6 أرقام على واتساب. صالح 5 دقائق.</span>
+      <label for="ph"><span data-en="Mobile number" data-mn-ar="الرقم العسكري" data-mn-en="Military number">رقم الجوال</span> <b class="req" aria-hidden="true">*</b></label>
+      <div class="phone" dir="ltr"><span class="cc" id="ph-cc">+971</span><input id="ph" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="5X XXX XXXX" maxlength="14" required aria-required="true" aria-describedby="ph-h"></div>
+      <span class="hint" id="ph-h" data-en="You will get a 6-digit code on WhatsApp. Valid 5 minutes." data-mn-ar="أرقام فقط، كما هو مسجّل لدى الإدارة" data-mn-en="Digits only, as the administration registered it">سيصلك رمز من 6 أرقام على واتساب. صالح 5 دقائق.</span>
     </div>
     <p class="err" id="ph-err" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="ph-err-t"></span></p>
-    <p class="banner warn" id="limited" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span data-en="Too many sign-in attempts right now. Try again in a minute, or contact the photography manager.">محاولات الدخول كثيرة الآن. جرّب بعد دقيقة، أو تواصل مع مسؤول المصورين.</span></p>
+    <p class="banner warn" id="limited" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span data-en="Too many sign-in attempts right now. Try again in a minute, or contact the photography manager." data-mn-ar="محاولات الدخول كثيرة الآن. جرّب بعد قليل، أو راجع الإدارة." data-mn-en="Too many sign-in attempts right now. Try again later, or contact the administration.">محاولات الدخول كثيرة الآن. جرّب بعد دقيقة، أو تواصل مع مسؤول المصورين.</span></p>
     <button type="button" class="btn fill big" id="ph-next"><span data-en="Continue">متابعة</span></button>
   </section>
 
@@ -89,7 +89,7 @@
   <section class="card gate" id="g-ok" hidden>
     <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg></span>
     <h1 tabindex="-1" data-en="Confirm your number">تأكيد رقمك</h1>
-    <p class="lede"><span data-en="We will send a 6-digit verification code by WhatsApp to this number:">سنرسل رمز تحقق مكوّناً من 6 أرقام عبر واتساب إلى هذا الرقم:</span><br><bdi class="num" dir="ltr" id="ok-num"></bdi></p>
+    <p class="lede"><span id="ok-say" data-en="We will send a 6-digit verification code by WhatsApp to this number:">سنرسل رمز تحقق مكوّناً من 6 أرقام عبر واتساب إلى هذا الرقم:</span><br id="ok-br"><bdi class="num" dir="ltr" id="ok-num"></bdi></p>
     <p class="err" id="ok-err" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="ok-err-t"></span></p>
     <button type="button" class="btn fill big" id="ok-yes"><span data-en="Yes, send the code">نعم، أرسل الرمز</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button>
     <button type="button" class="btn line" id="ok-no"><span data-en="No, this is not my number">لا، هذا ليس رقمي</span></button>
@@ -99,7 +99,7 @@
   <section class="card gate" id="g-code" hidden>
     <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
     <h1 tabindex="-1" data-en="Enter the verification code">أدخل رمز التحقق</h1>
-    <p class="lede"><span data-en="A 6-digit code was sent by WhatsApp to">تم إرسال رمز مكوّن من 6 أرقام عبر واتساب إلى</span> <bdi class="num" dir="ltr" id="code-num"></bdi><span data-en=", if the number is registered with the photography team.">، إن كان الرقم مسجّلاً في فريق التصوير.</span></p>
+    <p class="lede"><span data-en="A 6-digit code was sent by WhatsApp to" data-mn-ar="أرسلنا رمزاً من 6 أرقام إلى واتساب الرقم المنتهي بـ" data-mn-en="We sent a 6-digit code to the WhatsApp number ending in">تم إرسال رمز مكوّن من 6 أرقام عبر واتساب إلى</span> <bdi class="num" dir="ltr" id="code-num"></bdi><span data-en=", if the number is registered with the photography team." data-mn-ar="." data-mn-en=".">، إن كان الرقم مسجّلاً في فريق التصوير.</span></p>
     <div class="field">
       <label for="otp"><span data-en="Verification code">رمز التحقق</span> <b class="req" aria-hidden="true">*</b></label>
       <input class="otp" id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="••••••" dir="ltr" required aria-required="true" aria-describedby="timer">
@@ -111,9 +111,9 @@
     </div>
     <button type="button" class="btn fill big" id="verify"><span data-en="Verify and open the page">تحقق وافتح الصفحة</span></button>
     <p class="timer" id="timer" aria-live="polite"><span id="timer-t"></span><button type="button" class="lnk" id="resend" hidden><span data-en="Resend the code">إعادة إرسال الرمز</span></button></p>
-    <p class="banner info" id="nohint" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span data-en="No code after a minute? Your number may not be registered with the photography team, or your account may be inactive. Contact the photography manager.">لم يصلك الرمز خلال دقيقة؟ قد يكون رقمك غير مسجّل في فريق التصوير أو حسابك غير نشط. تواصل مع مسؤول المصورين.</span></p>
+    <p class="banner info" id="nohint" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span data-en="No code after a minute? Your number may not be registered with the photography team, or your account may be inactive. Contact the photography manager." data-mn-ar="لم يصلك الرمز خلال دقيقة؟ اطلب رمزاً جديداً، أو راجع الإدارة لتحديث رقم هاتفك المسجّل." data-mn-en="No code after a minute? Ask for a new one, or contact the administration to update your registered phone number.">لم يصلك الرمز خلال دقيقة؟ قد يكون رقمك غير مسجّل في فريق التصوير أو حسابك غير نشط. تواصل مع مسؤول المصورين.</span></p>
     <p class="safe"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><span><span data-en="Only type this code in «Security Media» at">لا تكتب هذا الرمز إلا في «الإعلام الأمني» على</span> <bdi dir="ltr" class="dom" id="dom"></bdi><span data-en=". We never ask for it in a call or a message.">. لن نطلبه منك في اتصال أو رسالة.</span></span></p>
-    <button type="button" class="lnk" id="change"><span data-en="Change the number">تغيير الرقم</span></button>
+    <button type="button" class="lnk" id="change"><span data-en="Change the number" data-mn-ar="تغيير الرقم العسكري" data-mn-en="Change the military number">تغيير الرقم</span></button>
   </section>
 
   <!-- the gate: refused after a correct code (inactive, suspended) or the service closed -->
@@ -173,6 +173,7 @@
       </div>
       <button type="button" class="btn fill" id="ios-btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Install on iPhone">التثبيت على الآيفون</span></button>
       <a class="btn fill" id="ios-get" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Install on iPhone">التثبيت على الآيفون</span></a>
+      <p class="small in" id="mn-ios" hidden data-en="After installing, open the app and tap «Administrative coordinator? Sign in with your military number».">بعد التثبيت افتح التطبيق واختر «منسق إداري؟ الدخول بالرقم العسكري».</p>
     </article>
   </section>
 
