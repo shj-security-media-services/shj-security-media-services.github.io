@@ -1,0 +1,33 @@
+# التقرير الأسبوعي كل أحد 05:00 UTC (09:00 بتوقيت الإمارات): بلاغ «📋 التقرير الأسبوعي» بنسبة التوفر والأعطال ونتائج الفحوص والتغييرات.
+# Weekly report, Sunday 05:00 UTC: an issue «📋 التقرير الأسبوعي» with uptime and incidents, the checks' results and the week's commits.
+name: Weekly report
+
+on:
+  schedule:
+    - cron: '0 5 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+      - name: Open the status branch
+        run: bash .github/scripts/branch.sh open status "$RUNNER_TEMP/status"
+      - name: Report
+        run: STATUS_DIR="$RUNNER_TEMP/status" node .github/scripts/weekly.mjs

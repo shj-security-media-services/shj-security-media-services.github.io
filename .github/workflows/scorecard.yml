@@ -1,0 +1,74 @@
+# OpenSSF Scorecard: أسبوعياً وبعد كل دفع إلى main؛ النتائج تُنشر (شارة README) وتظهر في Security → Code scanning.
+# OpenSSF Scorecard weekly and on push to main; results are published (README badge) and uploaded as SARIF to code scanning.
+name: Scorecard
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scorecard-sarif
+          path: results.sarif
+          retention-days: 5
+      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          sarif_file: results.sarif
+
+  summary:
+    needs: analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # the status branch
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+      - name: Score
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          api="https://api.scorecard.dev/projects/github.com/${GITHUB_REPOSITORY}"
+          for i in 1 2 3 4 5 6; do
+            curl -fsS --max-time 20 "$api" -o sc.json 2>/dev/null && jq -e --arg c "$GITHUB_SHA" '.repo.commit == $c' sc.json >/dev/null && break
+            sleep 20
+          done
+          if ! [ -s sc.json ]; then echo "::warning title=Scorecard::the published result is not readable yet"; exit 0; fi
+          {
+            echo "### OpenSSF Scorecard: **$(jq -r '.score' sc.json)** / 10"
+            echo
+            echo "commit \`$(jq -r '.repo.commit[0:7]' sc.json)\` · $(jq -r '.date' sc.json) · [viewer](https://scorecard.dev/viewer/?uri=github.com/${GITHUB_REPOSITORY})"
+            echo
+            echo "| الفحص · Check | الدرجة · Score | السبب · Reason |"
+            echo "|---|---|---|"
+            jq -r '.checks | sort_by(.score) | .[] | "| \(.name) | \(if .score < 0 then "n/a" else (.score | tostring) end) | \(.reason | gsub("\\|"; "/")) |"' sc.json
+          } >> "$GITHUB_STEP_SUMMARY"
+          bash .github/scripts/branch.sh open status "$RUNNER_TEMP/status"
+          jq --arg run "$RUN" '{at: .date, commit: .repo.commit, score, run: $run, checks: [.checks[] | {name, score}]}' sc.json > "$RUNNER_TEMP/status/scorecard.json"
+          bash .github/scripts/branch.sh push "$RUNNER_TEMP/status" "scorecard: $(jq -r .score sc.json)"

@@ -1,0 +1,29 @@
+# ميزانية الحجم عند كل دفع: حجم JavaScript و CSS للتطبيق (من release.json) وصفحة get/، وتنبيه إذا زاد أكثر من 10% عن الدفعة السابقة.
+# Size budget on push: the shell's hashed JS/CSS (from release.json) and get/; warns on more than 10% growth over the previous push.
+name: Size budget
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+      - name: Compare with the previous push
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base="HEAD~1"
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then base="$BEFORE"; fi
+          HEAD_REF="$GITHUB_SHA" BASE_REF="$base" bash .github/scripts/size.sh

@@ -1,0 +1,70 @@
+# فحص الروابط أسبوعياً (lychee) على صفحات الموقع المنشورة وملفات HTML في المستودع، دون خادم تسجيل الدخول.
+# Weekly link check (lychee) of the live pages and the repository's HTML, the sign-in API host excluded. One issue «🔗 روابط مكسورة».
+name: Links
+
+on:
+  schedule:
+    - cron: '0 4 * * 6' # Saturday 04:00 UTC, before the Sunday report
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: links
+  cancel-in-progress: true
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # the status branch
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Link check
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: false
+          jobSummary: true
+          output: lychee/out.md
+          args: >-
+            --no-progress --max-retries 2 --retry-wait-time 5 --timeout 20 --max-concurrency 8
+            --accept 200..=299,429
+            --exclude 'n8n\.cloud' --exclude '^itms-services:' --exclude '^whatsapp:' --exclude '^intent:'
+            --root-dir ${{ github.workspace }}
+            https://shj-security-media-services.github.io/
+            https://shj-security-media-services.github.io/get/
+            https://shj-security-media-services.github.io/404.html
+            './index.html' './404.html' './get/index.html' './admin/index.html' './.github/*.md'
+      - name: Issue «🔗 روابط مكسورة»
+        env:
+          CODE: ${{ steps.lychee.outputs.exit_code }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title='🔗 روابط مكسورة'
+          n=$(gh issue list --label روابط --state open --limit 20 --json number,title --jq "map(select(.title == \"$title\"))[0].number // empty")
+          errors=$(grep -oE '🚫 Errors[^|]*\|[^|]*[0-9]+' lychee/out.md | grep -oE '[0-9]+$' || true)
+          total=$(grep -oE '🔍 Total[^|]*\|[^|]*[0-9]+' lychee/out.md | grep -oE '[0-9]+$' || true)
+          echo "lychee exit $CODE, total ${total:-?}, errors ${errors:-?}"
+          if [ "$CODE" != "0" ]; then
+            { echo "وُجدت روابط لا تعمل في الموقع. · Some links on the site do not work."; echo; echo "[سجل الفحص · Check run]($RUN)"; echo; cat lychee/out.md; } > body.md
+            if [ -n "$n" ]; then gh issue comment "$n" --body-file body.md; else gh issue create --title "$title" --label روابط --body-file body.md; fi
+            echo "::warning title=Links::broken links found (${errors:-?})"
+            outcome=broken
+          else
+            if [ -n "$n" ]; then gh issue comment "$n" --body "✅ كل الروابط تعمل الآن · All links work now ([run]($RUN))."; gh issue close "$n" --reason completed; fi
+            outcome=ok
+          fi
+          bash .github/scripts/branch.sh open status "$RUNNER_TEMP/status"
+          jq -n --arg at "$(date -u +%FT%TZ)" --arg run "$RUN" --arg outcome "$outcome" --arg total "${total:-}" --arg errors "${errors:-}" --arg code "$CODE" \
+            '{at: $at, run: $run, outcome: $outcome, total: ($total | tonumber? // null), errors: ($errors | tonumber? // null), exit: ($code | tonumber? // null)}' \
+            > "$RUNNER_TEMP/status/links.json"
+          bash .github/scripts/branch.sh push "$RUNNER_TEMP/status" "links: $outcome"

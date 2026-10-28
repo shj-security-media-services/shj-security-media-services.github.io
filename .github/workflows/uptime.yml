@@ -1,0 +1,39 @@
+# فحص توفر الموقع كل 5 دقائق: الصفحات والملفات الثابتة فقط (لا يتصل أبداً بخادم تسجيل الدخول).
+# Uptime every 5 minutes: static files only (never the sign-in API). Down: one issue «🔴 الموقع متوقف»; back: «✅ عاد الموقع» and close.
+name: Uptime
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uptime
+  cancel-in-progress: false
+
+jobs:
+  uptime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # the status branch
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SITE: https://shj-security-media-services.github.io
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+      - name: Open the status branch
+        run: bash .github/scripts/branch.sh open status "$RUNNER_TEMP/status"
+      - name: Check the site
+        run: STATUS_DIR="$RUNNER_TEMP/status" node .github/scripts/uptime.mjs
+      - name: Save the history
+        run: |
+          bash .github/scripts/branch.sh push "$RUNNER_TEMP/status" "uptime $(date -u +%FT%TZ)"
