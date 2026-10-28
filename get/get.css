@@ -57,14 +57,14 @@ button,input,a.btn{font:inherit}
 .seal{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--seal);border:1px solid var(--line);overflow:hidden}
 .seal img{width:40px;height:40px;object-fit:contain}
 .idt{display:flex;flex-direction:column;min-width:0;line-height:1.25}
-.idt b{font-size:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idt b{font-size:1em;overflow-wrap:anywhere;text-wrap:balance}
 .idt small{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:.78em}
 .idt small .i{width:13px;height:13px}
 .tools{display:flex;align-items:center;gap:8px;flex:none}
-.seg{display:flex;padding:3px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
-.seg button{min-width:40px;min-height:34px;padding:0 10px;border:0;border-radius:999px;background:none;color:var(--ink-2);font-size:.9em;font-weight:700;cursor:pointer}
+.seg{display:flex;padding:0;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.seg button{min-width:44px;min-height:44px;padding:0 10px;border:0;border-radius:999px;background:none;color:var(--ink-2);font-size:.9em;font-weight:700;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--brand-fill);color:var(--on-brand)}
-.ibtn{display:grid;place-items:center;width:42px;height:42px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer}
+.ibtn{display:grid;place-items:center;width:44px;height:44px;flex:none;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer}
 .ibtn .i{width:20px;height:20px}
 .ibtn .sun{display:none}
 :root[data-theme="dark"] .ibtn .sun{display:block}
@@ -97,6 +97,7 @@ button,input,a.btn{font:inherit}
 .banner{display:flex;align-items:flex-start;gap:8px;margin:0;padding:12px 14px;border-radius:14px;font-size:.92em}
 .banner .i{margin-top:3px}
 .banner.warn{background:var(--warn-bg);color:var(--warn)}
+.outage{font-weight:600}
 .banner.info{background:var(--info-bg);color:var(--info)}
 .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:10px 18px;border-radius:16px;border:1.5px solid transparent;font-size:1.05em;font-weight:700;text-decoration:none;cursor:pointer}
 .btn.fill{background:var(--brand-fill);color:var(--on-brand);box-shadow:var(--shadow-1)}
@@ -107,7 +108,7 @@ button,input,a.btn{font:inherit}
 .btn.ghost{background:none;color:var(--brand-ink)}
 .btn.sm{min-height:44px;padding:6px 12px;font-size:.92em;border-radius:12px}
 .btn[aria-busy="true"]{opacity:.7;cursor:progress}
-.row{display:flex;gap:8px}
+.row{display:flex;flex-wrap:wrap;gap:8px}
 .row .btn{flex:1 1 auto;white-space:nowrap;gap:6px}
 .timer{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;margin:0;min-height:44px;color:var(--muted);font-size:.92em;text-align:center}
 .timer b{color:var(--ink);font-variant-numeric:tabular-nums}
@@ -183,7 +184,6 @@ button,input,a.btn{font:inherit}
 @media (prefers-reduced-motion: reduce){.arrow .down{animation:none}}
 @media (max-width:359px){
   .idt b{font-size:.92em}
-  .seg button{min-width:34px;padding:0 8px}
-  .ibtn{width:38px;height:38px}
+  .seg button{padding:0 8px}
   .card{padding:18px 14px}
 }

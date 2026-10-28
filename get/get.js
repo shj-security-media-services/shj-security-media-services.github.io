@@ -374,7 +374,10 @@ function createApi(o) {
       txt = await res.text();
     } catch (e) {
       cT(timer);
-      return { ok: false, code: timedOut ? 'timeout' : 'net', local: true, sent: timedOut, signed, rid: b.rid };
+      // no answer before the timeout: offline, or the server's host failed (its error page has no CORS headers, so it throws too).
+      // o.siteUp asks the site itself: down = the phone is online and only the server is not (review 2026-10-28 design item 2)
+      const down = !timedOut && typeof o.siteUp === 'function' ? !!(await o.siteUp()) : false;
+      return { ok: false, code: timedOut ? 'timeout' : 'net', down, local: true, sent: timedOut, signed, rid: b.rid };
     }
     cT(timer);
     if (timedOut) return { ok: false, code: 'timeout', local: true, sent: true, signed, rid: b.rid };
@@ -408,11 +411,11 @@ function createApi(o) {
   }
 
   async function after(r, op) {
-    if (!r.local) emit('net', { online: true });
+    if (!r.local || r.down) emit('net', { online: true });
     if (r.min && verLt(o.build, r.min)) emit('upgrade', { min: r.min });
     if (r.ok) { fails = 0; waitUntil = 0; }
     if (r.code === 'busy' || r.code === 'timeout' || r.code === 'net' || (r.code === 'fail' && (r.http === 0 || r.http >= 500))) backoff();
-    if (r.code === 'net') emit('net', { online: false });
+    if (r.code === 'net' && !r.down) emit('net', { online: false });
     // a renewed token is taken from any signed answer that carries one, a fail included: App Done keeps it on a fail when the renewal row
     // was written (the old token then lasts 2 minutes); an answer that ends the session wipes instead
     if (r.signed && typeof r.tok === 'string' && !SESSION[r.code]) await takeTok(r);
@@ -510,7 +513,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     return mod.exports;
   }
   var A = req('./api.js'), St = req('./store.js');
-  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261028.2","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","ANDROID_APK_URL":"/app/security-media.apk","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
+  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261028.3","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","ANDROID_APK_URL":"/app/security-media.apk","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
 })();
 // get.js: the install page /get/, v3 (zeno 2026-10-28: «like the Sharjah Police employee-app page»): a gate, then the download page.
 // The gate is the app's own sign-in, through the shell's own client (build_get.js puts shell/src idb.js, store.js, sign.js and api.js in
@@ -563,7 +566,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
       resendIn: 'إعادة الإرسال خلال ', timeUp: 'انتهت صلاحية الرمز. ', resent: 'أرسلنا رمزاً جديداً إن كان الرقم مسجّلاً.',
       noPaste: 'لم نجد رمزاً من 6 أرقام. انسخ الرمز من رسالة واتساب ثم اضغط «لصق الرمز».',
       noNet: 'لا يوجد اتصال. تحقّق من الإنترنت وحاول مرة أخرى.', busy: 'النظام مشغول، حاول بعد دقيقة.', limit: 'طلبات كثيرة خلال وقت قصير. حاول بعد دقيقة.',
-      fail: 'تعذّر الاتصال بالخادم، حاول مرة أخرى.', refused: 'لا تملك صلاحية هذا الإجراء',
+      fail: 'تعذّر الاتصال بالخادم، حاول مرة أخرى.', down: 'الخادم لا يرد، حاول بعد قليل.', refused: 'لا تملك صلاحية هذا الإجراء',
       inactive: 'عضويتك في فريق التصوير غير نشطة حالياً، لذلك لا يمكن فتح التطبيق. للاستفسار تواصل مع مسؤول المصورين.', suspended: 'هذا الحساب موقوف. تواصل مع مسؤول التصوير.',
       guideLine: 'أول مرة تثبّت التطبيق؟ خطوات جوالك خطوة بخطوة.',
       andWeb: 'يُثبَّت من المتصفح مباشرة، دون متجر.', andApk: 'نزّل ملف التطبيق (APK) وثبّته على جوالك الأندرويد.',
@@ -577,7 +580,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
       resendIn: 'Resend in ', timeUp: 'The code has expired. ', resent: 'A new code is on its way if the number is registered.',
       noPaste: 'No 6-digit code found. Copy the code from the WhatsApp message, then tap «Paste code».',
       noNet: 'No connection. Check the internet and try again.', busy: 'The system is busy. Try again in a minute.', limit: 'Too many requests in a short time. Try again in a minute.',
-      fail: 'Could not reach the server. Please try again.', refused: 'You do not have permission for this action',
+      fail: 'Could not reach the server. Please try again.', down: 'The server is not responding, try again shortly.', refused: 'You do not have permission for this action',
       inactive: 'Your photography team membership is inactive, so the app cannot open. Please contact the photography manager.', suspended: 'This account is suspended. Please contact the photography manager.',
       guideLine: 'First time installing? The steps for your phone, one by one.',
       andWeb: 'Installs straight from the browser, no store needed.', andApk: 'Download the APK and install it on your Android device.',
@@ -623,7 +626,27 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     var idb = null;
     try { idb = w.indexedDB || null; } catch (e) { idb = null; }
     store = X.createStore({ idb: idb, name: CFG.DB || 'tsw' });
-    api = X.createApi({ url: CFG.API_URL, build: CFG.BUILD, store: store, crypto: w.crypto, fetch: w.fetch.bind(w), lang: function () { return lang; } });
+    api = X.createApi({ url: CFG.API_URL, build: CFG.BUILD, store: store, crypto: w.crypto, fetch: w.fetch.bind(w), lang: function () { return lang; }, siteUp: siteStatus });
+  }
+
+  // the owner's outage line, as in the app (shell main.js siteStatus): /status.json on this site {on, ar, en}, its URL changed once a minute;
+  // a missing file or on not true = no line. The same read is the api's probe: true = the site answered (online, only the server is not)
+  function siteStatus() {
+    if (nav.onLine === false || typeof w.fetch !== 'function') return Promise.resolve(false);
+    var ac = typeof w.AbortController === 'function' ? new w.AbortController() : null;
+    var tm = w.setTimeout(function () { if (ac) ac.abort(); }, 5000);
+    return w.fetch('/status.json?m=' + Math.floor(Date.now() / 60000), { cache: 'no-store', credentials: 'omit', signal: ac ? ac.signal : undefined }).then(function (r) {
+      w.clearTimeout(tm);
+      return (r.ok ? r.json() : Promise.resolve(null)).catch(function () { return null; }).then(function (j) {
+        var s = function (v) { return typeof v === 'string' ? v.trim().slice(0, 300) : ''; };
+        var on = !!(j && j.on === true && (s(j.ar) || s(j.en))), el = $('outage'), tx = $('outage-t');
+        if (el && tx) {
+          if (on) { tx.setAttribute('data-ar', s(j.ar) || s(j.en)); tx.setAttribute('data-en', s(j.en) || s(j.ar)); tx.textContent = tx.getAttribute(lang === 'en' ? 'data-en' : 'data-ar'); }
+          el.hidden = !on;
+        }
+        return true;
+      });
+    }, function () { w.clearTimeout(tm); return false; });
   }
 
   // ---------- the theme ----------
@@ -714,11 +737,12 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
   // a local or server failure in words (the shell's netToast): no connection, busy, the limits, else the server's text
   function netErr(at, r) {
     var c = r.code;
-    if (c === 'net') err(at, 'noNet');
+    // no connection only when this site does not answer either (r.down: the phone is online and the server is not)
+    if (c === 'net' && !r.down) err(at, 'noNet');
     else if (c === 'busy') err(at, 'busy');
     else if (c === 'budget' || c === 'limit') err(at, 'limit');
     else if (r.msg && !r.local) err(at, '', null, r.msg);
-    else err(at, 'fail');
+    else err(at, c === 'net' || c === 'timeout' || c === 'fail' ? 'down' : 'fail');
   }
   function busy(id, on) {
     g.busy = on;
@@ -996,6 +1020,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     $('guide-x').addEventListener('click', closeGuide);
     $('guide-scrim').addEventListener('click', closeGuide);
     d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('guide').hidden) closeGuide(); });
+    siteStatus();
 
     if (inApp && (ios || android)) {
       screen('inapp');

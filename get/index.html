@@ -68,6 +68,8 @@
 </header>
 
 <main class="wrap" id="main">
+  <!-- the owner's outage line (/status.json on, get.js siteStatus) -->
+  <div class="banner warn outage" id="outage" role="status" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span id="outage-t"></span></div>
   <!-- the gate, 1: the member's number -->
   <section class="card gate" id="g-num" hidden>
     <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
@@ -125,7 +127,7 @@
   <!-- the download page -->
   <section id="dl" hidden>
     <div class="hero">
-      <img class="tile" src="/icons/icon-512.png" alt="" width="112" height="112">
+      <img class="tile" src="tile.webp" alt="" width="112" height="112" decoding="async">
       <h1 tabindex="-1" id="dl-t" data-en="Security Media">الإعلام الأمني</h1>
       <p class="sub" data-en="Official mobile application — download it for your device below.">التطبيق الرسمي للجوال، نزّله لجهازك من الأسفل.</p>
       <span class="chip"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-en="Official App">التطبيق الرسمي</span></span>
@@ -185,7 +187,7 @@
 
   <!-- a computer: open it on the phone -->
   <section class="card" id="pc" hidden>
-    <img class="tile" src="/icons/icon-512.png" alt="" width="96" height="96">
+    <img class="tile" src="tile.webp" alt="" width="96" height="96" decoding="async">
     <h1 tabindex="-1" data-en="Security Media">الإعلام الأمني</h1>
     <p class="say" data-en="Open this link on your phone to download the app.">افتح هذا الرابط على جوالك لتنزيل التطبيق.</p>
     <p class="small" data-en="The app is for Android phones and iPhones. On the phone you confirm your number with a WhatsApp code first.">التطبيق لجوالات أندرويد والآيفون. على الجوال تؤكد رقمك أولاً برمز يصلك على واتساب.</p>
