@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ae.shj.securitymedia",
+      "sha256_cert_fingerprints": [
+        "56:66:40:A2:38:77:09:3D:17:DD:74:7A:15:AA:CE:EB:9B:09:51:C2:3F:4A:05:C2:3F:FF:1F:F1:47:4B:0B:E1"
+      ]
+    }
+  }
+]

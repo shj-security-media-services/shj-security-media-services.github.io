@@ -2,10 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self' https://ahmedzenary.app.n8n.cloud; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#7d6a57" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#2a221b" media="(prefers-color-scheme: dark)">
@@ -46,60 +46,222 @@
 <script src="get.js"></script>
 </head>
 <body>
-<main class="wrap">
-  <div class="bar"><button type="button" class="lang" id="lang" lang="en">English</button></div>
-
-  <header class="hero">
-    <img class="appicon" src="/icons/icon-192.png" alt="" width="104" height="104">
-    <h1 data-en="Security Media">الإعلام الأمني</h1>
-    <p class="sub" data-en="The Security Media Department app">تطبيق إدارة الإعلام الأمني</p>
-  </header>
-
-  <section id="and" hidden>
-    <button type="button" class="big" id="install">
-      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
-      <span data-en="Download the app">تنزيل التطبيق</span>
+<div class="app">
+<header class="top">
+  <div class="id">
+    <span class="seal"><img src="/img/emblem.a90412e02d.webp" alt="" width="40" height="40"></span>
+    <div class="idt">
+      <b data-en="Security Media">الإعلام الأمني</b>
+      <small><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span data-en="Protected page">صفحة محمية</span></small>
+    </div>
+  </div>
+  <div class="tools" id="tools">
+    <div class="seg" role="group" id="langs" aria-label="اللغة">
+      <button type="button" id="l-ar" lang="ar" aria-pressed="true">ع</button>
+      <button type="button" id="l-en" lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button type="button" class="ibtn" id="theme" aria-label="الوضع الداكن">
+      <svg class="i moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg>
+      <svg class="i sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
     </button>
-    <p class="small" id="and-note" data-en="It installs straight from the browser, no store needed.">يُثبَّت من المتصفح مباشرة، دون متجر.</p>
-    <div class="help" id="and-menu" hidden>
-      <p class="say"><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.6" class="dot"/><circle cx="12" cy="12" r="1.6" class="dot"/><circle cx="12" cy="19" r="1.6" class="dot"/></svg></b> <span data-en="at the top of the browser, then «Install app» or «Add to Home screen».">أعلى المتصفح، ثم «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</span></p>
-      <p class="small" data-en="If you see «Open app», it is already installed.">إن ظهر «فتح التطبيق» فهو مثبّت لديك.</p>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <!-- the gate, 1: the member's number -->
+  <section class="card gate" id="g-num" hidden>
+    <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+    <h1 tabindex="-1" data-en="Confirm your number">تأكيد رقمك</h1>
+    <p class="lede" data-en="Enter your mobile number registered with the photography team. We will send it a verification code by WhatsApp.">اكتب رقم جوالك المسجّل في فريق التصوير، وسنرسل إليه رمز تحقق عبر واتساب.</p>
+    <div class="field">
+      <label for="ph"><span data-en="Mobile number">رقم الجوال</span> <b class="req" aria-hidden="true">*</b></label>
+      <div class="phone" dir="ltr"><span class="cc">+971</span><input id="ph" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="5X XXX XXXX" maxlength="14" required aria-required="true" aria-describedby="ph-h"></div>
+      <span class="hint" id="ph-h" data-en="You will get a 6-digit code on WhatsApp. Valid 5 minutes.">سيصلك رمز من 6 أرقام على واتساب. صالح 5 دقائق.</span>
     </div>
-    <div class="help" id="and-sam" hidden>
-      <p class="say"><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></b> <span data-en="at the bottom of the browser, then «Add page to» › «Home screen».">أسفل المتصفح، ثم «إضافة صفحة إلى» › «الشاشة الرئيسية».</span></p>
-    </div>
-    <p class="done" id="and-done" hidden role="status">
-      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-      <span data-en="Done. Open «Security Media» from your home screen.">تم. افتح «الإعلام الأمني» من الشاشة الرئيسية.</span>
-    </p>
+    <p class="err" id="ph-err" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="ph-err-t"></span></p>
+    <p class="banner warn" id="limited" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span data-en="Too many sign-in attempts right now. Try again in a minute, or contact the photography manager.">محاولات الدخول كثيرة الآن. جرّب بعد دقيقة، أو تواصل مع مسؤول المصورين.</span></p>
+    <button type="button" class="btn fill big" id="ph-next"><span data-en="Continue">متابعة</span></button>
   </section>
 
-  <section id="ios" hidden>
-    <p class="say" id="ios27" hidden><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></b> <span data-en="in the address bar, then «Share», then «Add to Home Screen».">في شريط العنوان، ثم «مشاركة»، ثم «إضافة إلى الشاشة الرئيسية».</span></p>
-    <p class="say" id="ios26" hidden><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6" class="dot"/><circle cx="12" cy="12" r="1.6" class="dot"/><circle cx="19" cy="12" r="1.6" class="dot"/></svg></b> <span data-en="next to the address bar, then «Share», then «Add to Home Screen».">بجانب شريط العنوان، ثم «مشاركة»، ثم «إضافة إلى الشاشة الرئيسية».</span></p>
-    <p class="say" id="ios18" hidden><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1"/></svg></b> <span data-en="in Safari's bar, then «Add to Home Screen».">في شريط Safari، ثم «إضافة إلى الشاشة الرئيسية».</span></p>
-    <p class="small" data-en="Opened inside WhatsApp or another app? Open it in Safari first.">فتحت الرابط داخل واتساب أو تطبيق آخر؟ افتحه في Safari أولاً.</p>
+  <!-- the gate, 2: is this your number? -->
+  <section class="card gate" id="g-ok" hidden>
+    <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg></span>
+    <h1 tabindex="-1" data-en="Confirm your number">تأكيد رقمك</h1>
+    <p class="lede"><span data-en="We will send a 6-digit verification code by WhatsApp to this number:">سنرسل رمز تحقق مكوّناً من 6 أرقام عبر واتساب إلى هذا الرقم:</span><br><bdi class="num" dir="ltr" id="ok-num"></bdi></p>
+    <p class="err" id="ok-err" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="ok-err-t"></span></p>
+    <button type="button" class="btn fill big" id="ok-yes"><span data-en="Yes, send the code">نعم، أرسل الرمز</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button>
+    <button type="button" class="btn line" id="ok-no"><span data-en="No, this is not my number">لا، هذا ليس رقمي</span></button>
   </section>
 
-  <section id="inapp" hidden>
+  <!-- the gate, 3: the code from WhatsApp -->
+  <section class="card gate" id="g-code" hidden>
+    <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+    <h1 tabindex="-1" data-en="Enter the verification code">أدخل رمز التحقق</h1>
+    <p class="lede"><span data-en="A 6-digit code was sent by WhatsApp to">تم إرسال رمز مكوّن من 6 أرقام عبر واتساب إلى</span> <bdi class="num" dir="ltr" id="code-num"></bdi><span data-en=", if the number is registered with the photography team.">، إن كان الرقم مسجّلاً في فريق التصوير.</span></p>
+    <div class="field">
+      <label for="otp"><span data-en="Verification code">رمز التحقق</span> <b class="req" aria-hidden="true">*</b></label>
+      <input class="otp" id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="••••••" dir="ltr" required aria-required="true" aria-describedby="timer">
+    </div>
+    <p class="err" id="otp-err" role="alert" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="otp-err-t"></span></p>
+    <div class="row">
+      <button type="button" class="btn tonal sm" id="paste"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg><span data-en="Paste code">لصق الرمز</span></button>
+      <button type="button" class="btn ghost sm" id="openwa"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg><span data-en="Open WhatsApp">افتح واتساب</span></button>
+    </div>
+    <button type="button" class="btn fill big" id="verify"><span data-en="Verify and open the page">تحقق وافتح الصفحة</span></button>
+    <p class="timer" id="timer" aria-live="polite"><span id="timer-t"></span><button type="button" class="lnk" id="resend" hidden><span data-en="Resend the code">إعادة إرسال الرمز</span></button></p>
+    <p class="banner info" id="nohint" hidden><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span data-en="No code after a minute? Your number may not be registered with the photography team, or your account may be inactive. Contact the photography manager.">لم يصلك الرمز خلال دقيقة؟ قد يكون رقمك غير مسجّل في فريق التصوير أو حسابك غير نشط. تواصل مع مسؤول المصورين.</span></p>
+    <p class="safe"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><span><span data-en="Only type this code in «Security Media» at">لا تكتب هذا الرمز إلا في «الإعلام الأمني» على</span> <bdi dir="ltr" class="dom" id="dom"></bdi><span data-en=". We never ask for it in a call or a message.">. لن نطلبه منك في اتصال أو رسالة.</span></span></p>
+    <button type="button" class="lnk" id="change"><span data-en="Change the number">تغيير الرقم</span></button>
+  </section>
+
+  <!-- the gate: refused after a correct code (inactive, suspended) or the service closed -->
+  <section class="card gate" id="g-no" hidden>
+    <span class="gi bad"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></span>
+    <h1 tabindex="-1" data-en="The page cannot open">تعذّر فتح الصفحة</h1>
+    <p class="lede" id="no-msg"></p>
+    <button type="button" class="btn line" id="no-back"><span data-en="Back">رجوع</span></button>
+  </section>
+
+  <!-- the download page -->
+  <section id="dl" hidden>
+    <div class="hero">
+      <img class="tile" src="/icons/icon-512.png" alt="" width="112" height="112">
+      <h1 tabindex="-1" id="dl-t" data-en="Security Media">الإعلام الأمني</h1>
+      <p class="sub" data-en="Official mobile application — download it for your device below.">التطبيق الرسمي للجوال، نزّله لجهازك من الأسفل.</p>
+      <span class="chip"><svg class="i xs" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-en="Official App">التطبيق الرسمي</span></span>
+    </div>
+
+    <article class="opt" id="c-guide">
+      <div class="oh">
+        <span class="oi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 4.5h6a3.5 3.5 0 0 1 3.5 3.5v12a2.8 2.8 0 0 0-2.8-2.8H2.5z"/><path d="M21.5 4.5h-6A3.5 3.5 0 0 0 12 8v12a2.8 2.8 0 0 1 2.8-2.8h6.7z"/></svg></span>
+        <div class="ot"><h2 data-en="Installation guide">دليل التثبيت</h2><p id="guide-line"></p></div>
+      </div>
+      <button type="button" class="btn fill" id="guide-btn"><span data-en="View guide">عرض الدليل</span></button>
+    </article>
+
+    <article class="opt" id="and">
+      <div class="oh">
+        <span class="oi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 6.5v7M9 10.5l3 3 3-3M10 18.5h4"/></svg></span>
+        <div class="ot"><h2><span data-en="Android">أندرويد</span><span class="mine" id="mine-and" hidden data-en="Your phone">جوالك</span></h2><p id="and-line"></p></div>
+      </div>
+      <p class="small in" id="and-in" hidden data-en="The app opens already signed in on this phone.">سيفتح التطبيق على هذا الجوال وأنت مسجّل الدخول.</p>
+      <button type="button" class="btn fill" id="install"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Download for Android">تنزيل لأندرويد</span></button>
+      <a class="btn fill" id="apk" hidden download><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Download for Android">تنزيل لأندرويد</span></a>
+      <div class="help" id="and-menu" hidden>
+        <p class="say"><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.6" class="dot"/><circle cx="12" cy="12" r="1.6" class="dot"/><circle cx="12" cy="19" r="1.6" class="dot"/></svg></b> <span data-en="at the top of the browser, then «Install app» or «Add to Home screen».">أعلى المتصفح، ثم «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</span></p>
+        <p class="small" data-en="If you see «Open app», it is already installed.">إن ظهر «فتح التطبيق» فهو مثبّت لديك.</p>
+      </div>
+      <div class="help" id="and-sam" hidden>
+        <p class="say"><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></b> <span data-en="at the bottom of the browser, then «Add page to» › «Home screen».">أسفل المتصفح، ثم «إضافة صفحة إلى» › «الشاشة الرئيسية».</span></p>
+      </div>
+      <div class="help" id="and-apk" hidden>
+        <p class="say" data-en="Open the file from the notification or «Downloads», then tap «Install».">افتح الملف من الإشعار أو من «التنزيلات»، ثم اضغط «تثبيت».</p>
+        <p class="small" data-en="Asked to allow unknown apps? Tap «Settings», turn on «Allow from this source», then go back.">طلب الجوال السماح بالتثبيت من مصادر غير معروفة؟ اضغط «الإعدادات» وفعّل «السماح من هذا المصدر»، ثم ارجع.</p>
+      </div>
+      <p class="done" id="and-done" hidden role="status">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-en="Done. Open «Security Media» from your home screen.">تم. افتح «الإعلام الأمني» من الشاشة الرئيسية.</span>
+      </p>
+    </article>
+
+    <article class="opt" id="c-ios">
+      <div class="oh">
+        <span class="oi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10.5 4.8h3M12 9.5v6M9 12.5h6"/></svg></span>
+        <div class="ot"><h2><span data-en="iPhone / iPad">آيفون / آيباد</span><span class="mine" id="mine-ios" hidden data-en="Your phone">جوالك</span></h2><p id="ios-line"></p></div>
+      </div>
+      <button type="button" class="btn fill" id="ios-btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Install on iPhone">التثبيت على الآيفون</span></button>
+      <a class="btn fill" id="ios-get" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span data-en="Install on iPhone">التثبيت على الآيفون</span></a>
+    </article>
+  </section>
+
+  <!-- before the gate: inside another app, open it in Safari or Chrome -->
+  <section class="card" id="inapp" hidden>
+    <span class="gi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></span>
     <p class="say" id="inapp-ios" hidden data-en="Open this link in Safari to download the app.">افتح هذا الرابط في Safari لتنزيل التطبيق.</p>
     <p class="say" id="inapp-and" hidden data-en="Open this link in Chrome to download the app.">افتح هذا الرابط في Chrome لتنزيل التطبيق.</p>
     <p class="small" id="inapp-ios-how" hidden data-en="Tap the compass or «Open in Safari», or copy the link and paste it in Safari.">اضغط البوصلة أو «فتح في Safari»، أو انسخ الرابط والصقه في Safari.</p>
     <p class="small" id="inapp-and-how" hidden data-en="In the ⋮ menu choose «Open in Chrome», or copy the link and paste it in Chrome.">من القائمة ⋮ اختر «فتح في Chrome»، أو انسخ الرابط والصقه في Chrome.</p>
   </section>
 
-  <section id="pc" hidden>
+  <!-- a computer: open it on the phone -->
+  <section class="card" id="pc" hidden>
+    <img class="tile" src="/icons/icon-512.png" alt="" width="96" height="96">
+    <h1 tabindex="-1" data-en="Security Media">الإعلام الأمني</h1>
     <p class="say" data-en="Open this link on your phone to download the app.">افتح هذا الرابط على جوالك لتنزيل التطبيق.</p>
+    <p class="small" data-en="The app is for Android phones and iPhones. On the phone you confirm your number with a WhatsApp code first.">التطبيق لجوالات أندرويد والآيفون. على الجوال تؤكد رقمك أولاً برمز يصلك على واتساب.</p>
   </section>
 
   <section id="link" hidden>
-    <input class="url" id="url" type="text" readonly dir="ltr" aria-label="Link">
-    <button type="button" class="big tonal" id="copy">
+    <input class="url" id="url" type="text" readonly dir="ltr" aria-label="الرابط">
+    <button type="button" class="btn tonal" id="copy">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       <span id="copy-t" data-en="Copy the link">نسخ الرابط</span>
     </button>
   </section>
 </main>
+
+<footer class="foot">
+  <span data-en="Security Media Department">إدارة الإعلام الأمني</span>
+  <span data-en="Photography branch">فرع التصوير</span>
+</footer>
+</div>
+
+<!-- the installation guide: this phone's steps first -->
+<div class="sheet" id="guide" hidden>
+  <div class="scrim" id="guide-scrim"></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="guide-t">
+    <div class="ph">
+      <h2 id="guide-t" tabindex="-1" data-en="Installation guide">دليل التثبيت</h2>
+      <button type="button" class="ibtn" id="guide-x" aria-label="إغلاق"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="t-ios" aria-controls="ios" aria-selected="true"><span data-en="iPhone / iPad">آيفون / آيباد</span></button>
+      <button type="button" role="tab" id="t-and" aria-controls="p-and" aria-selected="false"><span data-en="Android">أندرويد</span></button>
+    </div>
+
+    <div role="tabpanel" id="ios" aria-labelledby="t-ios">
+      <ol class="steps" id="ios27" hidden>
+        <li><span><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></b> <span data-en="in the address bar, then «Share».">في شريط العنوان، ثم «مشاركة».</span></span></li>
+        <li><span data-en="Choose «Add to Home Screen». Scroll the list down if you do not see it.">اختر «إضافة إلى الشاشة الرئيسية». مرّر القائمة للأسفل إن لم تجده.</span></li>
+        <li><span data-en="Tap «Add», then open «Security Media» from your home screen.">اضغط «إضافة»، ثم افتح «الإعلام الأمني» من الشاشة الرئيسية.</span></li>
+      </ol>
+      <ol class="steps" id="ios26" hidden>
+        <li><span><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6" class="dot"/><circle cx="12" cy="12" r="1.6" class="dot"/><circle cx="19" cy="12" r="1.6" class="dot"/></svg></b> <span data-en="next to the address bar, then «Share».">بجانب شريط العنوان، ثم «مشاركة».</span></span></li>
+        <li><span data-en="Choose «Add to Home Screen». Scroll the list down if you do not see it.">اختر «إضافة إلى الشاشة الرئيسية». مرّر القائمة للأسفل إن لم تجده.</span></li>
+        <li><span data-en="Tap «Add», then open «Security Media» from your home screen.">اضغط «إضافة»، ثم افتح «الإعلام الأمني» من الشاشة الرئيسية.</span></li>
+      </ol>
+      <ol class="steps" id="ios18" hidden>
+        <li><span><span data-en="Tap">اضغط</span> <b class="key"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1"/></svg></b> <span data-en="in Safari's bar.">في شريط Safari.</span></span></li>
+        <li><span data-en="Choose «Add to Home Screen». Scroll the list down if you do not see it.">اختر «إضافة إلى الشاشة الرئيسية». مرّر القائمة للأسفل إن لم تجده.</span></li>
+        <li><span data-en="Tap «Add», then open «Security Media» from your home screen.">اضغط «إضافة»، ثم افتح «الإعلام الأمني» من الشاشة الرئيسية.</span></li>
+      </ol>
+      <ol class="steps" id="ios-ent" hidden>
+        <li><span data-en="Tap «Install on iPhone», then «Install».">اضغط «التثبيت على الآيفون»، ثم «تثبيت».</span></li>
+        <li><span data-en="Wait for the app to finish downloading on your home screen.">انتظر حتى يكتمل تنزيل التطبيق على الشاشة الرئيسية.</span></li>
+        <li><span data-en="The first time: Settings › General › VPN & Device Management, choose the developer, then «Trust».">أول مرة فقط: الإعدادات › عام › إدارة VPN والجهاز، اختر اسم المطوّر، ثم «الوثوق».</span></li>
+        <li><span data-en="Open «Security Media» from your home screen.">افتح «الإعلام الأمني» من الشاشة الرئيسية.</span></li>
+      </ol>
+      <p class="small" id="ios-older" hidden data-en="On iOS 26: «⋯» next to the address bar. On iOS 18 and older: the Share button in Safari's bar.">في iOS 26: «⋯» بجانب شريط العنوان. في iOS 18 وما قبله: زر المشاركة في شريط Safari.</p>
+      <p class="small" id="ios-safari" data-en="Opened inside WhatsApp or another app? Open it in Safari first.">فتحت الرابط داخل واتساب أو تطبيق آخر؟ افتحه في Safari أولاً.</p>
+    </div>
+
+    <div role="tabpanel" id="p-and" aria-labelledby="t-and" hidden>
+      <ol class="steps" id="and-web">
+        <li><span data-en="Tap «Download for Android», then «Install» in the window that opens.">اضغط «تنزيل لأندرويد»، ثم «تثبيت» في النافذة التي تظهر.</span></li>
+        <li><span data-en="No window? In the Chrome ⋮ menu choose «Install app» or «Add to Home screen».">لم تظهر النافذة؟ من قائمة Chrome ⋮ اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</span></li>
+        <li><span data-en="In Samsung Internet: tap ≡ at the bottom, then «Add page to» › «Home screen».">في Samsung Internet: اضغط ≡ أسفل المتصفح، ثم «إضافة صفحة إلى» › «الشاشة الرئيسية».</span></li>
+        <li><span data-en="Open «Security Media» from your home screen.">افتح «الإعلام الأمني» من الشاشة الرئيسية.</span></li>
+      </ol>
+      <ol class="steps" id="and-file" hidden>
+        <li><span data-en="Tap «Download for Android» and wait for the download to finish.">اضغط «تنزيل لأندرويد» وانتظر حتى يكتمل التنزيل.</span></li>
+        <li><span data-en="Open the file from the notification or «Downloads».">افتح الملف من الإشعار أو من «التنزيلات».</span></li>
+        <li id="and-unknown"><span><b class="st" data-en="Allow installing from unknown sources">السماح بالتثبيت من مصادر غير معروفة</b> <span data-en="If the phone asks, tap «Settings», turn on «Allow from this source», then go back.">إن طلب الجوال ذلك، اضغط «الإعدادات» وفعّل «السماح من هذا المصدر»، ثم ارجع.</span></span></li>
+        <li><span data-en="Tap «Install», then «Open».">اضغط «تثبيت»، ثم «فتح».</span></li>
+      </ol>
+      <p class="small" data-en="Opened inside WhatsApp or another app? Open it in Chrome first.">فتحت الرابط داخل واتساب أو تطبيق آخر؟ افتحه في Chrome أولاً.</p>
+    </div>
+  </div>
+</div>
 
 <div class="arrow" id="arrow" hidden aria-hidden="true">
   <b class="key" id="arrow-key"></b>
@@ -108,5 +270,6 @@
 <div class="arrow up" id="arrow-up" hidden aria-hidden="true">
   <svg class="down" viewBox="0 0 24 24"><path d="M12 21V4M5 11l7-7 7 7"/></svg>
 </div>
+<p class="toast" id="toast" role="status" hidden></p>
 </body>
 </html>
