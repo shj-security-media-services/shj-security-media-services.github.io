@@ -510,7 +510,7 @@ module.exports = { createApi, tokInfo, verLt, bootOf, UNSIGNED, READS, SESSION, 
     return mod.exports;
   }
   var A = req('./api.js'), St = req('./store.js');
-  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261028.1","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","ANDROID_APK_URL":"/app/security-media.apk","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
+  return Object.freeze({ createApi: A.createApi, createStore: St.createStore, tokInfo: A.tokInfo, CFG: Object.freeze({"API_URL":"https://ahmedzenary.app.n8n.cloud/webhook/tasweer-admin","BUILD":"2.261028.2","ENV":"prod","DB":"tsw","DOMAIN":"shj-security-media-services.github.io","ANDROID_APK_URL":"/app/security-media.apk","IOS_MANIFEST_URL":"","IOS_LINK":""}) });
 })();
 // get.js: the install page /get/, v3 (zeno 2026-10-28: «like the Sharjah Police employee-app page»): a gate, then the download page.
 // The gate is the app's own sign-in, through the shell's own client (build_get.js puts shell/src idb.js, store.js, sign.js and api.js in
