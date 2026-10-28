@@ -16,7 +16,8 @@ TITLE='🎨 تغيّر في شكل الصفحات'
 LABEL='مظهر'
 changed=$(jq '.changed' "$R")
 total=$(jq '.total' "$R")
-have=$(find "$VB/current" -name '*.png' 2>/dev/null | wc -l)
+have=0
+[ -d "$VB/current" ] && have=$(find "$VB/current" -name '*.png' | wc -l)
 
 open_issue() {
   gh issue list --label "$LABEL" --state open --limit 20 --json number,title --jq "map(select(.title == \"$TITLE\"))[0].number // empty"
