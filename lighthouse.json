@@ -1,20 +1,20 @@
 {
- "at": "2026-10-28T16:22:56.270Z",
- "commit": "dac9f69224f3059b2e72c444c8d7a53dc1169457",
- "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40725175391",
+ "at": "2026-10-28T16:26:14.777Z",
+ "commit": "3afbbb75a2c4da2740c2cb5e3215536edb72a5e1",
+ "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40725789516",
  "pages": [
   {
    "path": "/",
    "ok": true,
-   "performance": 57,
+   "performance": 86,
    "accessibility": 100,
    "best-practices": 100,
    "seo": 58,
    "requests": 10,
    "n8nRequests": 0,
-   "lcp": "3.1 s",
+   "lcp": "2.2 s",
    "cls": "0",
-   "tbt": "3,830 ms",
+   "tbt": "490 ms",
    "lighthouse": "13.5.0"
   },
   {
@@ -26,8 +26,8 @@
    "seo": 58,
    "requests": 8,
    "n8nRequests": 0,
-   "lcp": "1.3 s",
-   "cls": "0",
+   "lcp": "1.2 s",
+   "cls": "0.027",
    "tbt": "0 ms",
    "lighthouse": "13.5.0"
   }
