@@ -1,23 +1,11 @@
 {
-  "at": "2026-10-28T19:04:09Z",
-  "commit": "40cd2f272a47b85bbf8af76f544fce9224d02a48",
+  "at": "2026-10-28T20:57:28Z",
+  "commit": "579fce7ce4ad9487eb535b25072d56ede8ad3c28",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40750877122",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40767807205",
   "checks": [
     {
-      "name": "Maintained",
-      "score": 0
-    },
-    {
-      "name": "Code-Review",
-      "score": 0
-    },
-    {
-      "name": "Binary-Artifacts",
-      "score": 10
-    },
-    {
-      "name": "Packaging",
+      "name": "CI-Tests",
       "score": -1
     },
     {
@@ -25,15 +13,27 @@
       "score": 10
     },
     {
-      "name": "CI-Tests",
+      "name": "Packaging",
       "score": -1
     },
     {
-      "name": "Dangerous-Workflow",
+      "name": "Maintained",
+      "score": 0
+    },
+    {
+      "name": "SAST",
       "score": 10
     },
     {
-      "name": "Pinned-Dependencies",
+      "name": "Binary-Artifacts",
+      "score": 10
+    },
+    {
+      "name": "Code-Review",
+      "score": 0
+    },
+    {
+      "name": "Dangerous-Workflow",
       "score": 10
     },
     {
@@ -41,8 +41,12 @@
       "score": 10
     },
     {
-      "name": "SAST",
+      "name": "Pinned-Dependencies",
       "score": 10
+    },
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 0
     },
     {
       "name": "Vulnerabilities",
@@ -53,11 +57,7 @@
       "score": 0
     },
     {
-      "name": "Signed-Releases",
-      "score": -1
-    },
-    {
-      "name": "Dependency-Update-Tool",
+      "name": "License",
       "score": 0
     },
     {
@@ -65,16 +65,16 @@
       "score": 0
     },
     {
-      "name": "License",
-      "score": 0
+      "name": "Contributors",
+      "score": 3
     },
     {
       "name": "Branch-Protection",
       "score": 0
     },
     {
-      "name": "Contributors",
-      "score": 3
+      "name": "Signed-Releases",
+      "score": -1
     }
   ]
 }
