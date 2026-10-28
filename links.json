@@ -1,8 +1,8 @@
 {
-  "at": "2026-10-28T16:25:36Z",
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40725803253",
-  "outcome": "broken",
+  "at": "2026-10-28T16:28:34Z",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40726281368",
+  "outcome": "ok",
   "total": 147,
-  "errors": 1,
-  "exit": 2
+  "errors": 0,
+  "exit": 0
 }
