@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-28T16:24:01.411Z",
+  "commit": "dac9f69224f3059b2e72c444c8d7a53dc1169457",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40725175069",
+  "outcome": "failed",
+  "total": 16,
+  "same": 0,
+  "changed": 0,
+  "new": 16,
+  "flaky": 0,
+  "axe": {
+    "critical": 0,
+    "serious": 4,
+    "moderate": 8,
+    "minor": 0
+  },
+  "rules": [
+    {
+      "id": "region",
+      "impact": "moderate",
+      "screens": 8
+    },
+    {
+      "id": "scrollable-region-focusable",
+      "impact": "serious",
+      "screens": 4
+    }
+  ],
+  "blocked": {}
+}
