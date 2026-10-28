@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-28T16:21:46Z",
+  "commit": "dac9f69224f3059b2e72c444c8d7a53dc1169457",
+  "score": 5.4,
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40725175024",
+  "checks": [
+    {
+      "name": "CI-Tests",
+      "score": -1
+    },
+    {
+      "name": "Security-Policy",
+      "score": 10
+    },
+    {
+      "name": "Dangerous-Workflow",
+      "score": 10
+    },
+    {
+      "name": "Code-Review",
+      "score": 0
+    },
+    {
+      "name": "Maintained",
+      "score": 0
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 10
+    },
+    {
+      "name": "Packaging",
+      "score": -1
+    },
+    {
+      "name": "SAST",
+      "score": 10
+    },
+    {
+      "name": "Token-Permissions",
+      "score": 10
+    },
+    {
+      "name": "Pinned-Dependencies",
+      "score": 10
+    },
+    {
+      "name": "Vulnerabilities",
+      "score": 10
+    },
+    {
+      "name": "License",
+      "score": 0
+    },
+    {
+      "name": "CII-Best-Practices",
+      "score": 0
+    },
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 0
+    },
+    {
+      "name": "Fuzzing",
+      "score": 0
+    },
+    {
+      "name": "Branch-Protection",
+      "score": 0
+    },
+    {
+      "name": "Signed-Releases",
+      "score": -1
+    },
+    {
+      "name": "Contributors",
+      "score": 3
+    }
+  ]
+}
