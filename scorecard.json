@@ -1,27 +1,19 @@
 {
-  "at": "2026-10-28T20:57:28Z",
-  "commit": "579fce7ce4ad9487eb535b25072d56ede8ad3c28",
+  "at": "2026-10-28T22:20:23Z",
+  "commit": "3bc61b032bf5cb1ba4d9f1d4981bf23420d4f801",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40767807205",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40779161257",
   "checks": [
     {
-      "name": "CI-Tests",
-      "score": -1
-    },
-    {
-      "name": "Security-Policy",
-      "score": 10
-    },
-    {
-      "name": "Packaging",
-      "score": -1
+      "name": "Code-Review",
+      "score": 0
     },
     {
       "name": "Maintained",
       "score": 0
     },
     {
-      "name": "SAST",
+      "name": "Security-Policy",
       "score": 10
     },
     {
@@ -29,11 +21,7 @@
       "score": 10
     },
     {
-      "name": "Code-Review",
-      "score": 0
-    },
-    {
-      "name": "Dangerous-Workflow",
+      "name": "SAST",
       "score": 10
     },
     {
@@ -41,12 +29,20 @@
       "score": 10
     },
     {
-      "name": "Pinned-Dependencies",
+      "name": "CI-Tests",
+      "score": -1
+    },
+    {
+      "name": "Dangerous-Workflow",
       "score": 10
     },
     {
-      "name": "Dependency-Update-Tool",
-      "score": 0
+      "name": "Packaging",
+      "score": -1
+    },
+    {
+      "name": "Pinned-Dependencies",
+      "score": 10
     },
     {
       "name": "Vulnerabilities",
@@ -57,11 +53,19 @@
       "score": 0
     },
     {
+      "name": "Signed-Releases",
+      "score": -1
+    },
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 0
+    },
+    {
       "name": "License",
       "score": 0
     },
     {
-      "name": "Fuzzing",
+      "name": "Branch-Protection",
       "score": 0
     },
     {
@@ -69,12 +73,8 @@
       "score": 3
     },
     {
-      "name": "Branch-Protection",
+      "name": "Fuzzing",
       "score": 0
-    },
-    {
-      "name": "Signed-Releases",
-      "score": -1
     }
   ]
 }
