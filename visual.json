@@ -1,16 +1,16 @@
 {
-  "at": "2026-10-28T17:34:59.750Z",
-  "commit": "c585fffba77635de1d2d9b9d5a576034e91c2019",
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40736705819",
-  "outcome": "accepted",
+  "at": "2026-10-28T19:06:24.295Z",
+  "commit": "40cd2f272a47b85bbf8af76f544fce9224d02a48",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40750877142",
+  "outcome": "changed",
   "total": 16,
-  "same": 4,
-  "changed": 12,
+  "same": 0,
+  "changed": 16,
   "new": 0,
   "flaky": 0,
   "axe": {
     "critical": 0,
-    "serious": 4,
+    "serious": 0,
     "moderate": 8,
     "minor": 0
   },
@@ -19,11 +19,6 @@
       "id": "region",
       "impact": "moderate",
       "screens": 8
-    },
-    {
-      "id": "scrollable-region-focusable",
-      "impact": "serious",
-      "screens": 4
     }
   ],
   "blocked": {}
