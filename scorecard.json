@@ -1,9 +1,21 @@
 {
-  "at": "2026-10-28T22:20:23Z",
-  "commit": "3bc61b032bf5cb1ba4d9f1d4981bf23420d4f801",
+  "at": "2026-10-29T02:57:21Z",
+  "commit": "dc3c31f3a2b9a67d5d3f04ab0b282d529aa62b3e",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40779161257",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40809356610",
   "checks": [
+    {
+      "name": "CI-Tests",
+      "score": -1
+    },
+    {
+      "name": "Packaging",
+      "score": -1
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 10
+    },
     {
       "name": "Code-Review",
       "score": 0
@@ -17,28 +29,16 @@
       "score": 10
     },
     {
-      "name": "Binary-Artifacts",
-      "score": 10
-    },
-    {
       "name": "SAST",
       "score": 10
-    },
-    {
-      "name": "Token-Permissions",
-      "score": 10
-    },
-    {
-      "name": "CI-Tests",
-      "score": -1
     },
     {
       "name": "Dangerous-Workflow",
       "score": 10
     },
     {
-      "name": "Packaging",
-      "score": -1
+      "name": "Token-Permissions",
+      "score": 10
     },
     {
       "name": "Pinned-Dependencies",
@@ -53,15 +53,19 @@
       "score": 0
     },
     {
-      "name": "Signed-Releases",
-      "score": -1
-    },
-    {
       "name": "Dependency-Update-Tool",
       "score": 0
     },
     {
+      "name": "Signed-Releases",
+      "score": -1
+    },
+    {
       "name": "License",
+      "score": 0
+    },
+    {
+      "name": "Fuzzing",
       "score": 0
     },
     {
@@ -71,10 +75,6 @@
     {
       "name": "Contributors",
       "score": 3
-    },
-    {
-      "name": "Fuzzing",
-      "score": 0
     }
   ]
 }
