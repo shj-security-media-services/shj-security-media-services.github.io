@@ -1,5 +1,5 @@
 {
- "at": "2026-10-30T16:33:32.342Z",
+ "at": "2026-10-30T21:01:54.293Z",
  "up": true,
  "failing": [],
  "uptime": {
@@ -13,7 +13,7 @@
    "name": "الصفحة الرئيسية · Home",
    "path": "/",
    "code": 200,
-   "ms": 143,
+   "ms": 116,
    "bytes": 7496,
    "ok": true
   },
@@ -22,7 +22,7 @@
    "name": "صفحة التنزيل · Install page",
    "path": "/get/",
    "code": 200,
-   "ms": 117,
+   "ms": 126,
    "bytes": 32754,
    "ok": true
   },
@@ -31,7 +31,7 @@
    "name": "Manifest",
    "path": "/manifest.webmanifest",
    "code": 200,
-   "ms": 91,
+   "ms": 141,
    "bytes": 1269,
    "ok": true
   },
@@ -40,7 +40,7 @@
    "name": "Service worker",
    "path": "/sw.js",
    "code": 200,
-   "ms": 98,
+   "ms": 108,
    "bytes": 10408,
    "ok": true
   },
@@ -49,7 +49,7 @@
    "name": "version.json",
    "path": "/version.json",
    "code": 200,
-   "ms": 118,
+   "ms": 134,
    "bytes": 69,
    "ok": true
   },
@@ -58,7 +58,7 @@
    "name": "تطبيق أندرويد · Android APK",
    "path": "/app/security-media.apk",
    "code": 200,
-   "ms": 234,
+   "ms": 126,
    "bytes": 1059546,
    "ok": true
   },
@@ -67,10 +67,10 @@
    "name": "assetlinks.json",
    "path": "/.well-known/assetlinks.json",
    "code": 200,
-   "ms": 95,
+   "ms": 107,
    "bytes": 328,
    "ok": true
   }
  ],
- "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41090962330"
+ "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41127850331"
 }
