@@ -1,31 +1,27 @@
 {
-  "at": "2026-10-29T02:57:21Z",
-  "commit": "dc3c31f3a2b9a67d5d3f04ab0b282d529aa62b3e",
+  "at": "2026-11-01T10:30:01Z",
+  "commit": "c5a5d1613b3d4087bb62157edb648a9c73446877",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/40809356610",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41297732463",
   "checks": [
+    {
+      "name": "Code-Review",
+      "score": 0
+    },
     {
       "name": "CI-Tests",
       "score": -1
     },
     {
-      "name": "Packaging",
-      "score": -1
-    },
-    {
-      "name": "Binary-Artifacts",
+      "name": "Security-Policy",
       "score": 10
-    },
-    {
-      "name": "Code-Review",
-      "score": 0
     },
     {
       "name": "Maintained",
       "score": 0
     },
     {
-      "name": "Security-Policy",
+      "name": "Binary-Artifacts",
       "score": 10
     },
     {
@@ -41,8 +37,16 @@
       "score": 10
     },
     {
+      "name": "Packaging",
+      "score": -1
+    },
+    {
       "name": "Pinned-Dependencies",
       "score": 10
+    },
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 0
     },
     {
       "name": "Vulnerabilities",
@@ -53,28 +57,24 @@
       "score": 0
     },
     {
-      "name": "Dependency-Update-Tool",
-      "score": 0
-    },
-    {
       "name": "Signed-Releases",
       "score": -1
-    },
-    {
-      "name": "License",
-      "score": 0
     },
     {
       "name": "Fuzzing",
       "score": 0
     },
     {
-      "name": "Branch-Protection",
+      "name": "License",
       "score": 0
     },
     {
       "name": "Contributors",
       "score": 3
+    },
+    {
+      "name": "Branch-Protection",
+      "score": 0
     }
   ]
 }
