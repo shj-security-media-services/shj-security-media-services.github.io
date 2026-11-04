@@ -196,7 +196,7 @@ function renderControls() {
       if (matchMedia('(min-width:1120px)').matches) document.getElementById(focusId).focus();
     } }, values.map(value => node('option', { value, selected: state[stateKey] === value ? '' : null },
       key === 'role' ? tr(config.roles[value].title) : key === 'theme' ? t(value) : value === 'ar' ? (state.lang === 'ar' ? 'العربية' : 'Arabic') : 'English')));
-    panel.append(node('label', { for: select.id }, t(key), select));
+    panel.append(node('div', {class:'control-field'}, node('label', { for: select.id }, t(key)), select));
   }
   panel.append(button(t('close'), closeControls, 'btn tonal close-controls', 'x'));
   controls.replaceChildren(panel);

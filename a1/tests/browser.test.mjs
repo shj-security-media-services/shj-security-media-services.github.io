@@ -105,6 +105,7 @@ for (const role of Object.keys(config.roles)) {
       await page.getByRole('button', {name:'Home',exact:true}).last().click();
       await page.locator('.hello').waitFor();
       await page.locator('.tabbar .tab').nth(1).click();
+      await page.waitForFunction(tab => document.querySelector('.tabbar [aria-current=page]')?.textContent === tab, config.services[config.roles[role].tab].title.en);
       assert.equal(await page.locator('.tabbar [aria-current=page]').innerText(), config.services[config.roles[role].tab].title.en);
       assert.equal(await page.getByRole('button',{name:/Accept|Approve|Send|Reject|Cancel/}).count(),0);
     } finally { await ctx.close(); }
@@ -173,7 +174,7 @@ test('open both authoritative mockups in Chromium for visual review', async () =
     const page = await ctx.newPage();
     for (const name of ['app','panel']) {
       await page.goto(origin + `/__ref__/${name}.html` + (name === 'app' ? '#d-ph' : ''));
-      await page.locator('#app').waitFor(); await page.evaluate(() => document.fonts.ready);
+      await page.locator(name === 'app' ? '#app' : '#page').waitFor(); await page.evaluate(() => document.fonts.ready);
       await page.screenshot({path:path.join(output,`reference-${name}.png`)});
     }
   } finally { await ctx.close(); }

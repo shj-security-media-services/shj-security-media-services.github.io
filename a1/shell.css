@@ -58,3 +58,6 @@ body { background:var(--bg); overflow:hidden; }
 .tile-number { font:700 1.8em/1.2 var(--f-body); }
 .tile-number small { display:block;font-size:.45em;font-weight:500;color:var(--muted);margin-top:4px; }
 .tile-sub { font-size:.75em;font-weight:400;color:var(--muted); }
+#app .tabbar { position:absolute;inset-inline:0;bottom:0;width:100%; }
+.hello:focus,h1[tabindex="-1"]:focus { outline:none; }
+.control-field { display:grid;gap:4px; }
