@@ -69,6 +69,9 @@ for (const role of Object.keys(config.roles)) for (const lang of config.language
       await page.goto(origin + `/a1/?role=${role}&lang=${lang}&theme=${theme}`);
       await page.locator('.hello').waitFor(); await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('.tabbar .tab').count(), 4);
+      assert.equal(await page.locator('.hello').evaluate(element => getComputedStyle(element).boxShadow), 'none');
+      const greeting = await page.locator('.hello').evaluate(element => ({client:element.clientWidth,scroll:element.scrollWidth}));
+      assert.ok(greeting.scroll <= greeting.client, JSON.stringify(greeting));
       assert.equal(await page.locator('.launch .lic').count(), config.roles[role].shortcuts.length);
       assert.equal(await page.locator('html').getAttribute('dir'), lang === 'ar' ? 'rtl' : 'ltr');
       assert.equal(await page.locator('html').getAttribute('data-theme'), theme);
@@ -77,7 +80,7 @@ for (const role of Object.keys(config.roles)) for (const lang of config.language
       assert.ok(dimensions.app <= dimensions.width);
       if (lang === 'en') assert.doesNotMatch(await page.locator('#app').innerText(), /[\u0600-\u06ff]/);
       await page.screenshot({ path:path.join(output, `${role}-${width}-${lang}-${theme}.png`) });
-      await page.getByRole('heading', { name:config.copy.waiting[lang],exact:true }).scrollIntoViewIfNeeded();
+      await page.locator('.feed').evaluate(element => element.scrollIntoView({block:'start'}));
       await page.screenshot({ path:path.join(output, `${role}-${width}-${lang}-${theme}-waiting.png`) });
       assert.deepEqual(errors, []);
     } finally { await ctx.close(); }
