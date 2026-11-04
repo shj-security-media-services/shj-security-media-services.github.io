@@ -1,12 +1,28 @@
 {
-  "at": "2026-11-04T07:13:00Z",
-  "commit": "6d2e63181c6cd6512b344e84faf5d7eb0001e591",
+  "at": "2026-11-04T09:08:02Z",
+  "commit": "3bdc6cbe057d32be3c76c93699f5c6cd8c01c34d",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41790697337",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41804909253",
   "checks": [
     {
       "name": "CI-Tests",
       "score": -1
+    },
+    {
+      "name": "Maintained",
+      "score": 0
+    },
+    {
+      "name": "Dangerous-Workflow",
+      "score": 10
+    },
+    {
+      "name": "Security-Policy",
+      "score": 10
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 10
     },
     {
       "name": "Packaging",
@@ -17,7 +33,7 @@
       "score": 0
     },
     {
-      "name": "Security-Policy",
+      "name": "Token-Permissions",
       "score": 10
     },
     {
@@ -25,36 +41,16 @@
       "score": 10
     },
     {
-      "name": "Token-Permissions",
-      "score": 10
-    },
-    {
-      "name": "Dangerous-Workflow",
-      "score": 10
-    },
-    {
-      "name": "Binary-Artifacts",
-      "score": 10
-    },
-    {
-      "name": "Maintained",
-      "score": 0
-    },
-    {
       "name": "Pinned-Dependencies",
+      "score": 10
+    },
+    {
+      "name": "Vulnerabilities",
       "score": 10
     },
     {
       "name": "CII-Best-Practices",
       "score": 0
-    },
-    {
-      "name": "Dependency-Update-Tool",
-      "score": 0
-    },
-    {
-      "name": "Vulnerabilities",
-      "score": 10
     },
     {
       "name": "Signed-Releases",
@@ -65,11 +61,15 @@
       "score": 0
     },
     {
-      "name": "Fuzzing",
+      "name": "Branch-Protection",
       "score": 0
     },
     {
-      "name": "Branch-Protection",
+      "name": "Dependency-Update-Tool",
+      "score": 0
+    },
+    {
+      "name": "Fuzzing",
       "score": 0
     },
     {
