@@ -1,0 +1,54 @@
+name: A1 DEMO review
+on:
+  push:
+    branches: [gpt/A-1]
+    paths: ['a1/**', '.github/workflows/a1-review.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: gpt-ref
+          path: reference-source
+          sparse-checkout: |
+            gpt-ref/app-mockup-D.html
+            gpt-ref/panel-mockup.html
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing review tools
+        run: npm ci --prefix .github/tools
+      - name: Install Chromium
+        run: .github/tools/node_modules/.bin/playwright install --with-deps chromium
+      - name: Check syntax and DEMO model
+        run: |
+          node --check a1/app.mjs
+          node --check a1/data.mjs
+          node --check a1/model.mjs
+          node --test a1/tests/model.test.mjs
+      - name: Prepare reference files
+        run: |
+          mkdir -p "$RUNNER_TEMP/a1-reference"
+          cp reference-source/gpt-ref/app-mockup-D.html "$RUNNER_TEMP/a1-reference/app.html"
+          cp reference-source/gpt-ref/panel-mockup.html "$RUNNER_TEMP/a1-reference/panel.html"
+      - name: Isolated browser checks and screenshots
+        env:
+          A1_REFERENCE_DIR: ${{ runner.temp }}/a1-reference
+        run: node --test --test-concurrency=1 a1/tests/browser.test.mjs
+      - name: Save review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a1-review-evidence
+          path: a1-results/
+          retention-days: 14
