@@ -1,27 +1,19 @@
 {
-  "at": "2026-11-04T09:08:02Z",
-  "commit": "3bdc6cbe057d32be3c76c93699f5c6cd8c01c34d",
+  "at": "2026-11-04T11:40:42Z",
+  "commit": "04952eb082893e25246851da3fa552ef5d2afce3",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41804909253",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41822825490",
   "checks": [
-    {
-      "name": "CI-Tests",
-      "score": -1
-    },
     {
       "name": "Maintained",
       "score": 0
     },
     {
-      "name": "Dangerous-Workflow",
-      "score": 10
+      "name": "Code-Review",
+      "score": 0
     },
     {
       "name": "Security-Policy",
-      "score": 10
-    },
-    {
-      "name": "Binary-Artifacts",
       "score": 10
     },
     {
@@ -29,8 +21,12 @@
       "score": -1
     },
     {
-      "name": "Code-Review",
-      "score": 0
+      "name": "CI-Tests",
+      "score": -1
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 10
     },
     {
       "name": "Token-Permissions",
@@ -38,6 +34,10 @@
     },
     {
       "name": "SAST",
+      "score": 10
+    },
+    {
+      "name": "Dangerous-Workflow",
       "score": 10
     },
     {
@@ -65,16 +65,16 @@
       "score": 0
     },
     {
-      "name": "Dependency-Update-Tool",
-      "score": 0
-    },
-    {
       "name": "Fuzzing",
       "score": 0
     },
     {
       "name": "Contributors",
       "score": 3
+    },
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 0
     }
   ]
 }
