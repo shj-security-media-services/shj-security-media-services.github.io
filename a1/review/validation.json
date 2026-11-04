@@ -1,0 +1,57 @@
+{
+  "source_commit": "d02a5c5ff3612f532db9491ce54c70644a73a115",
+  "run_url": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41859391982",
+  "tests": {
+    "model": 32,
+    "browser": 60,
+    "total": 92,
+    "passed": 92,
+    "failed": 0
+  },
+  "screenshots": {
+    "total": 98,
+    "application": 96,
+    "references": 2,
+    "widths": [
+      390,
+      1280
+    ],
+    "languages": [
+      "ar",
+      "en"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "roles": 6
+  },
+  "targetMs": 300,
+  "clickToPaintMs": [
+    {
+      "role": "ph",
+      "ms": 28.60000000000582
+    },
+    {
+      "role": "lead",
+      "ms": 29.89999999999418
+    },
+    {
+      "role": "sup",
+      "ms": 29.59999999999127
+    },
+    {
+      "role": "dir",
+      "ms": 29.39999999999418
+    },
+    {
+      "role": "prog",
+      "ms": 30
+    },
+    {
+      "role": "req",
+      "ms": 29.80000000000291
+    }
+  ],
+  "externalRequests": []
+}
