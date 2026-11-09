@@ -1,12 +1,16 @@
 {
-  "at": "2026-11-04T11:40:42Z",
+  "at": "2026-11-09T11:54:35Z",
   "commit": "04952eb082893e25246851da3fa552ef5d2afce3",
   "score": 5.4,
-  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/41822825490",
+  "run": "https://github.com/shj-security-media-services/shj-security-media-services.github.io/actions/runs/42612676707",
   "checks": [
     {
       "name": "Maintained",
       "score": 0
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 10
     },
     {
       "name": "Code-Review",
@@ -21,11 +25,7 @@
       "score": -1
     },
     {
-      "name": "CI-Tests",
-      "score": -1
-    },
-    {
-      "name": "Binary-Artifacts",
+      "name": "Dangerous-Workflow",
       "score": 10
     },
     {
@@ -33,11 +33,11 @@
       "score": 10
     },
     {
-      "name": "SAST",
-      "score": 10
+      "name": "CI-Tests",
+      "score": -1
     },
     {
-      "name": "Dangerous-Workflow",
+      "name": "SAST",
       "score": 10
     },
     {
@@ -57,10 +57,6 @@
       "score": -1
     },
     {
-      "name": "License",
-      "score": 0
-    },
-    {
       "name": "Branch-Protection",
       "score": 0
     },
@@ -69,12 +65,16 @@
       "score": 0
     },
     {
-      "name": "Contributors",
-      "score": 3
-    },
-    {
       "name": "Dependency-Update-Tool",
       "score": 0
+    },
+    {
+      "name": "License",
+      "score": 0
+    },
+    {
+      "name": "Contributors",
+      "score": 3
     }
   ]
 }
